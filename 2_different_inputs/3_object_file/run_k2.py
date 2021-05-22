@@ -72,6 +72,7 @@ def invoke_patcher(infile, name):
             infile,
             new_insns,
             name,
+            '--remove-reloc',
             '-o',
             f'output/{name}_modified.o'
         ]) 
