@@ -22,9 +22,9 @@ make z3server.out
 cd ../../
 
 # download k2 benchmark files
-cd dependencies
+cd 3_reproduce_results/1_insn_count/
 git clone https://github.com/smartnic/superopt-input-bm.git
-cd ../
+cd ../../
 
 # install text extractor and patcher
 object_file_path=2_different_inputs/3_object_file/
