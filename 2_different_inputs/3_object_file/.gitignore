@@ -1,0 +1,10 @@
+bpf-elf-tools/*
+src/*
+elf_extract
+*.maps
+*.rel
+*.out
+*.txt
+*.insns
+old-extracted-files
+
