@@ -1,4 +1,5 @@
 apt-get install binutils g++ make libelf-dev python python3-pip pkg-config llvm
+pip3 install prettytable numpy
 
 mkdir dependencies
 
@@ -22,9 +23,22 @@ make z3server.out
 cd ../../
 
 # download k2 benchmark files
-cd 3_reproduce_results/1_insn_count/
+cd dependencies
 git clone https://github.com/smartnic/superopt-input-bm.git
+cd ../
+# copy k2 benchmark files to destinations
+cp -r dependencies/superopt-input-bm 3_reproduce_results/1_insn_count/
+cp -r dependencies/superopt-input-bm 3_reproduce_results/2_eq_chk_time/
+cd 3_reproduce_results/2_eq_chk_time/
+mkdir -p src/isa/ebpf/
+cp ../../dependencies/superopt/src/isa/ebpf/inst.runtime src/isa/ebpf/inst.runtime
 cd ../../
+
+# install comparison of equivalence-checking time
+cd dependencies/superopt
+make meas_solve_time_ebpf.out
+cd ../../
+cp dependencies/superopt/measure/meas_solve_time_ebpf.out 3_reproduce_results/2_eq_chk_time/meas_solve_time_ebpf.out
 
 # install text extractor and patcher
 object_file_path=2_different_inputs/3_object_file/
