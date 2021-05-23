@@ -261,7 +261,7 @@ sh k2.sh
 Estimated runtime: 2 hours
 ```
 cd ../../3_reproduce_results/2_eq_chk_time
-sh k2.sh
+sh eq_chk.sh
 ```
 
 
