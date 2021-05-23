@@ -24,9 +24,9 @@ machine with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memo
 1. Install docker if it is not installed already by following the
 documentation [here](https://docs.docker.com/install/).
 
-2. Download the prebuilt docker image
+2. Download the prebuilt docker image (shasum: c9600ada1b7bd57ced8362cc3f437cc7794537cb)
 ```
-https://drive.google.com/file/d/1WcU2AvNz4cREjAjFnUNgvph1gtx7Hyno/view?usp=sharing
+https://drive.google.com/file/d/1gOhTuI4mbXN00KZOHzrF_2aM8kyBWsWq/view?usp=sharing
 ```
 
 
