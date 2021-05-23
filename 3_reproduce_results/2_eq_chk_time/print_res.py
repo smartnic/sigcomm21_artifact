@@ -13,7 +13,7 @@ def extract_data():
     counter = 0
     for line in lines:
         if 'benchmark' in line:
-            benchmark.append(line.split(' ')[-1])
+            benchmark.append(line.split(' ')[-1][:-1])
         elif 'validator solve eq' in line:
             sol_time[counter].append(int(float(line.split(' ')[-3])))
             counter = (counter + 1) % 5
@@ -50,6 +50,7 @@ def print_table(benchmark, sol_time, slow_down):
 
     table_time = PrettyTable()
     table_time.title = 'Slow down (how many times slower than I,II,III,IV)'
+    table_time.add_column('Benchmark', benchmark)
     table_time.add_column('I,II,III', slow_down_string[1])
     table_time.add_column('I,II', slow_down_string[2])
     table_time.add_column('I', slow_down_string[3])
