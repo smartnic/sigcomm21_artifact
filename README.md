@@ -349,7 +349,7 @@ There are some parameters for K2. In this experiment, we will introduce window p
 changing different windows for the same input program to be optimized. Window parameters are used to select
 a specific program segment to be optimized, which can reduce the compiling time for a large program. In this
 section, We use `window [s,e]` to represent the program segment from `s` to `e` for convenience.
-More details are in the submiited paper (`IV. Modular verification.` in section 5). 
+More details are in the submitted paper (`IV. Modular verification.` in section 5). 
 
 
 #### Run
