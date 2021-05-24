@@ -24,9 +24,9 @@ machine with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memo
 1. Install docker if it is not installed already by following the
 documentation [here](https://docs.docker.com/install/).
 
-2. Download the prebuilt docker image (shasum: f5c1dc7dc08e18a5bc10ab00a0479a617a915ed1)
+2. Download the prebuilt docker image (shasum: 469dbb6cb935342bd7fbd5687c395ba9cb7ef5e5)
 ```
-https://drive.google.com/file/d/1JlvtRCL1bqWiuqNwXVZiGpjD4KS3LIoq/view?usp=sharing
+https://drive.google.com/file/d/1Td3yM0PNLgBRf7Y_XlPAP9vbNHMeYrBl/view?usp=sharing
 ```
 
 
@@ -199,6 +199,69 @@ We can see that there are two `goto +0` instructions in the optimized program. F
 >        6: 05 00 00 00 00 00 00 00 goto +0 <xdp_prog1+0x38>
 >        7: bc 34 00 00 00 00 00 00 w4 = w3
 >        8: 05 00 00 00 00 00 00 00 goto +0 <xdp_prog1+0x48>
+```
+
+---
+
+### change compiler parameters
+
+(todo, add more description) An example of changing different windows for the same input program to be optimized.
+
+#### Run
+Estimated runtime: 1 minute 25 seconds
+```
+sh k2.sh benchmark.bpf 0 3 benchmark_win1.bpf.out
+sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
+```
+##### Expected result
+For window [0,3], K2 reduces 16 instructions to 14, while for window [4,5], the number of instructions is
+reduced to 15.
+
+```
+...
+original program's perf cost: 16
+...
+top 1 program's performance cost: 14
+...
+```
+
+```
+...
+original program's perf cost: 16
+...
+top 1 program's performance cost: 15
+...
+```
+
+Run the following command to see the difference between the original and optimized programs (window [0,3]).
+
+```
+diff benchmark.bpf benchmark_win1.bpf.out
+```
+Run the following command to see the difference between the original and optimized programs (window [4,5]).
+```
+diff benchmark.bpf benchmark_win2.bpf.out
+```
+We can see that if window is set as [0,3], the first 4 instructions are be optimized, while instructions 4
+to 5 are optimized if window is set as [4,5].
+
+```
+1,4c1,2
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -4),
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 2),
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),
+---
+> BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),
+> BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
+```
+
+```
+5,6c5
+< BPF_MOV64_IMM(BPF_REG_0, 1),
+< BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),
+---
+> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
 ```
 
 ---
