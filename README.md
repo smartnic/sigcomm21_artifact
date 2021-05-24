@@ -19,7 +19,9 @@ consumed. [total estimated time: 4 minutes]
 3. [Artifact functionality (advanced): changing compiler parameters.]
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The full set of available K2
-parameters is available at ____ [total estimated time: 2 minutes.]
+parameters is available 
+[here](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) 
+[total estimated time: 2 minutes.]
 
 4. [Result reproduction] Instruction count reduction: We provide
 scripts to reproduce a subset of results on the reductions in program
