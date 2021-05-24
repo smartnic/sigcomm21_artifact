@@ -3,7 +3,7 @@ path_prefix=2_different_inputs/2_bpf_insn/
 path_to_root=../../
 k2_path=dependencies/superopt/
 k2_to_root=../../
-benchmark=benchmark_before.bpf_insn
+benchmark=benchmark_before.bpf
 if [ $# -gt 0 ]; then
   benchmark=$1
 fi

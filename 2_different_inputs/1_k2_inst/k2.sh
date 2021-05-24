@@ -3,7 +3,7 @@ path_prefix=2_different_inputs/1_k2_inst/
 path_to_root=../../
 k2_path=dependencies/superopt/
 k2_to_root=../../
-benchmark=benchmark_before.k2_inst
+benchmark=benchmark_before.k2
 if [ $# -gt 0 ]; then
   benchmark=$1
 fi

@@ -3,7 +3,7 @@ path_prefix=1_hello_world/
 path_to_root=../
 k2_path=dependencies/superopt/
 k2_to_root=../../
-benchmark=benchmark.k2_inst
+benchmark=benchmark.k2
 echo "Benchmark is" $benchmark
 output_file=$benchmark.out
 if [ ! -d "output" ]; then
