@@ -199,7 +199,7 @@ benchmark_before.bpf
 BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u16 *)(r1 + 0)
 BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -4),  // *(u16 *)(r10 - 4) = r0
 BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 2),    // r0 = *(u16 *)(r1 + 2)
-BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),  // *(u16 *) (r10 - 2) = r0
+BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),  // *(u16 *)(r10 - 2) = r0
 BPF_LD_MAP_FD(BPF_REG_1, 4),                    // r1 = map fd 4
 BPF_MOV64_REG(BPF_REG_2, BPF_REG_10),           // r2 = r10
 BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, -4),          // r2 -= -4
@@ -211,7 +211,7 @@ BPF_EXIT_INSN(),                                // exit, return r0
 benchmark_before.bpf.out (the first two intructions)
 ```
 BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),   // r0 = *(u32 *)(r1 + 0)
-BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *) (r10 - 4) = r0
+BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
 ```
 
 ##### Change the input program
@@ -245,7 +245,7 @@ Note: the third and fourth instructions are redundant, since the remaining progr
 BPF_MOV64_IMM(BPF_REG_0, 0),                   // r0 = 0
 BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
 BPF_MOV64_IMM(BPF_REG_0, 1),                   // r0 = 1
-BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5), // *(u8 *) (r10 - 5) = r0
+BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5), // *(u8 *)(r10 - 5) = r0
 ```
 
 Run the command to invoke K2 to optimize `benchmark_after.bpf` and store the output in `benchmark_after.bpf.out`
@@ -275,7 +275,7 @@ Comment:
 ```
 BPF_ST_MEM(BPF_W, BPF_REG_10, -4, 0),  // *(u32 *)(r10 - 4) = 0
 ```
-K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instruction.
+K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
 
 ---
 
@@ -332,7 +332,7 @@ benchmark_before.k2
 ```
 LDXB 0 1 0    // r0 = *(u8 *)(r1 + 0)
 STXB 10 -2 0  // *(u8 *)(r10 - 2) = r0
-LDXB 0 1 1    // r0 = *(u8 *)(r1 + 0)
+LDXB 0 1 1    // r0 = *(u8 *)(r1 + 1)
 STXB 10 -1 0  // *(u8 *)(r10 - 1) = r0
 LDMAPID 1 0   // r1 = map fd 0
 MOV64XY 2 10  // r2 = r10
@@ -355,7 +355,7 @@ STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 Here, we modify the input program from `benchmark_before.k2` to `benchmark_after.k2`. 
 We can see that K2 will produce a different output.
 
-Run the command2 to see the difference between `benchmark_before.k2` and `benchmark_after.k2`.
+Run the command to see the difference between `benchmark_before.k2` and `benchmark_after.k2`.
 ```
 diff benchmark_before.k2 benchmark_after.k2
 ```
@@ -382,7 +382,7 @@ Note: the third and fourth instructions are redundant, since the remaining progr
 MOV64XC 0 0   // r0 = 0
 STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 MOV64XC 0 1   // r0 = 1
-STXB 10 -5 0  // *(u8 *) (r10 - 5) = r0
+STXB 10 -5 0  // *(u8 *)(r10 - 5) = r0
 ```
 
 Run the command to invoke K2 to optimize `benchmark_after.k2` and store the output in `benchmark_after.k2.out`
@@ -414,7 +414,7 @@ STDW 10 -8 1  // *(u64 *)(r10 - 8) = 1
               // It means that (r10 - 7) to (r10 - 1) are set as 0, (r10 - 8) is set as 1
               // In your run, the immediate number could be others because of the stochastic search
 ```
-K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instruction.
+K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
 
 ---
 
@@ -476,6 +476,7 @@ More details are in the submitted paper (`IV. Modular verification.` in section 
 #### Run
 Estimated runtime: 1 minute 25 seconds
 ```
+cd ../../3_change_parameters/
 sh k2.sh benchmark.bpf 0 3 benchmark_win1.bpf.out
 sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
 ```
@@ -538,10 +539,20 @@ to 5 are optimized if window is set as [4,5].
 
 Here are the comments to help understand prorgams.
 ```
+1,4c1,2
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u16 *)(r1 + 0)
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -4),  // *(u16 *)(r10 - 4) = r0
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 2),    // r0 = *(u16 *)(r1 + 2)
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),  // *(u16 *)(r10 - 2) = r0
+---
+> BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u32 *)(r1 + 0)
+> BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),  // *(u32 *)(r10 - 4) = r0
+```
+```
 < BPF_MOV64_IMM(BPF_REG_0, 1),                      // r0 = 1
 < BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),  // *(u64 *)(r0 - 16) = r0
 ---
-> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),           // *(u64 *) (r0 - 16) = 1
+> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),           // *(u64 *)(r0 - 16) = 1
 ```
 
 ---
@@ -555,7 +566,7 @@ Here are the comments to help understand prorgams.
 #### Run
 Estimated runtime: 1 hour 30 minutes
 ```
-cd ../../4_reproduce_results/1_insn_count
+cd ../4_reproduce_results/1_insn_count
 sh insn_count.sh
 ```
 
@@ -606,7 +617,7 @@ is the same as / similar to the table showing here.
 ##### Run
 Estimated runtime: 2 hours
 ```
-cd ../../4_reproduce_results/2_eq_chk_time
+cd ../2_eq_chk_time
 sh eq_chk.sh
 ```
 
