@@ -82,46 +82,6 @@ In this experiment, we introduce three input-output types supported by K2: K2 la
 
 ---
 
-#### K2 language
-K2 supports taking a program written in K2 language and producing an optimized program in K2. K2 language is a self-defined instruction set. Each instruction contains an opcode and one or multiple operands. Here(todo: add a link) is the documentation of K2 instructions. 
-
-##### Run
-Estimated runtime: 1 minute.
-```
-cd ../2_different_inputs/1_k2_inst
-sh k2.sh benchmark_before.k2_inst
-```
-##### Expected result
-You will see K2 reduces 12 instructions to 10. 
-```
-...
-original program's perf cost: 12
-...
-top 1 program's performance cost: 10
-...
-```
-Run the following command to see the difference between the original and optimized programs.
-```
-diff benchmark_before.k2_inst benchmark_before.k2_inst.out 
-```
-We can see that 2 one-byte load and store operations are optimized to 1 two-byte load and store.
-```
-1,4c1,2
-< LDXB 0 1 0
-< STXB 10 -2 0
-< LDXB 0 1 1
-< STXB 10 -1 0
----
-> LDXH 0 1 0
-> STXH 10 -2 0
-```
-
-##### Change the original program
-
-todo
-
----
-
 #### BPF C macros
 
 Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write [BPF assembly programs](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47). K2 can take a program in BPF C marcos and produce an optmized one in BPF C marcos.
@@ -158,6 +118,46 @@ We can see that 2 two-byte load and store operations are optimized to 1 four-byt
 ```
 
 ##### Change the original program
+todo
+
+---
+
+#### K2 language
+K2 supports taking a program written in K2 language and producing an optimized program in K2. K2 language is a self-defined instruction set. Each instruction contains an opcode and one or multiple operands. Here(todo: add a link) is the documentation of K2 instructions. 
+
+##### Run
+Estimated runtime: 1 minute.
+```
+cd ../2_different_inputs/1_k2_inst
+sh k2.sh benchmark_before.k2_inst
+```
+##### Expected result
+You will see K2 reduces 12 instructions to 10. 
+```
+...
+original program's perf cost: 12
+...
+top 1 program's performance cost: 10
+...
+```
+Run the following command to see the difference between the original and optimized programs.
+```
+diff benchmark_before.k2_inst benchmark_before.k2_inst.out 
+```
+We can see that 2 one-byte load and store operations are optimized to 1 two-byte load and store.
+```
+1,4c1,2
+< LDXB 0 1 0
+< STXB 10 -2 0
+< LDXB 0 1 1
+< STXB 10 -1 0
+---
+> LDXH 0 1 0
+> STXH 10 -2 0
+```
+
+##### Change the original program
+
 todo
 
 ---
