@@ -41,9 +41,10 @@ cd ../../
 cp dependencies/superopt/measure/meas_solve_time_ebpf.out 3_reproduce_results/2_eq_chk_time/meas_solve_time_ebpf.out
 
 # install text extractor and patcher
-object_file_path=2_different_inputs/3_object_file/
-object_file_path_to_root=../../
+object_file_path=2_different_inputs/3_object_file/tools/
+object_file_path_to_root=../../../
 k2_path=dependencies/superopt/
+mkdir -p $object_file_path
 cd $object_file_path
 git clone https://github.com/smartnic/bpf-elf-tools.git
 pip3 install -r bpf-elf-tools/patch_insns/requirements.txt
