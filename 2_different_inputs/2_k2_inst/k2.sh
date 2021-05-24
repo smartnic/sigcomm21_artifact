@@ -1,5 +1,5 @@
 #!/bin/bash
-path_prefix=2_different_inputs/1_k2_inst/
+path_prefix=2_different_inputs/2_k2_inst/
 path_to_root=../../
 k2_path=dependencies/superopt/
 k2_to_root=../../
