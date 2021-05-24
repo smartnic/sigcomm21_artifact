@@ -58,10 +58,10 @@ original program's perf cost: 3
 top 1 program's performance cost: 2
 ...
 ```
-The original program is in `benchmark.k2_inst`, and K2 stores the optimized program in `benchmark.k2_inst.out`. Run commands 
+The original program is in `benchmark.k2`, and K2 stores the optimized program in `benchmark.k2.out`. Run commands 
 ```
-cat benchmark.k2_inst
-cat benchmark.k2_inst.out
+cat benchmark.k2
+cat benchmark.k2.out
 ```
 you will see the program 
 ```
@@ -90,7 +90,7 @@ Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/
 Estimated runtime: 2 minutes.
 ```
 cd ../2_bpf_insn
-sh k2.sh benchmark_before.bpf_insn
+sh k2.sh benchmark_before.bpf
 ```
 ##### Expected result
 You will see K2 reduces 12 instructions to 10. 
@@ -103,7 +103,7 @@ top 1 program's performance cost: 10
 ```
 Run the following command to see the difference between the original and optimized programs.
 ```
-diff benchmark_before.bpf_insn benchmark_before.bpf_insn.out
+diff benchmark_before.bpf benchmark_before.bpf.out
 ```
 We can see that 2 two-byte load and store operations are optimized to 1 four-byte load and store.
 ```
@@ -129,7 +129,7 @@ K2 supports taking a program written in K2 language and producing an optimized p
 Estimated runtime: 1 minute.
 ```
 cd ../2_different_inputs/1_k2_inst
-sh k2.sh benchmark_before.k2_inst
+sh k2.sh benchmark_before.k2
 ```
 ##### Expected result
 You will see K2 reduces 12 instructions to 10. 
@@ -142,7 +142,7 @@ top 1 program's performance cost: 10
 ```
 Run the following command to see the difference between the original and optimized programs.
 ```
-diff benchmark_before.k2_inst benchmark_before.k2_inst.out 
+diff benchmark_before.k2 benchmark_before.k2.out 
 ```
 We can see that 2 one-byte load and store operations are optimized to 1 two-byte load and store.
 ```
