@@ -42,9 +42,7 @@ submission. [total estimated time: 120 minutes.]
 ## Note
 1. The results showing below can only be used for reference,
 since K2 leverages stochastic search so that we cannot guarantee the results
-are exactly the same for every run. Expected time for the evaulation of the artifact
-is around 4 hours (based on a machine with 3.1 GHz Dual-Core Intel Core i7 processor,
-16 GB 1867 MHz DDR3 memory).
+are exactly the same for every run.
 
 2. K2 is a synthesizing compiler that optimizes BPF programs better than
 traditional compilers like clang. However, it does so at the expense
@@ -54,6 +52,9 @@ made our best efforts to provide sample programs that can
 near-interactively compiled on a reasonably powerful laptop, with
 estimations of how long you might have to wait for each compilation to
 finish.
+
+3. The estimated time for the evaulation of the artifact is based on a machine 
+with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memory.
 
 ---
 
