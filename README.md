@@ -98,7 +98,7 @@ original program's perf cost: 3
 top 1 program's performance cost: 2
 ...
 ```
-We can run commands to have a look at the input and output programs
+Run the following commands to have a look at the input and output programs.
 
 ```
 cat benchmark.k2
@@ -114,6 +114,21 @@ is optimized to
 ```
 MOV64XC 0 2
 EXIT
+```
+
+Here are the comments to help understaned prorgams.
+
+benchmark.k2
+
+```
+MOV64XC 0 1 // r0 = 1
+ADD64XY 0 0 // r0 += r0
+EXIT        // exit, return r0
+```
+benchmark.k2.out
+```
+MOV64XC 0 2 // r0 = 2
+EXIT        // exit, return r0
 ```
 
 ---
@@ -164,6 +179,38 @@ We can see that 2 two-byte load-and-store operations are optimized to 1 four-byt
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
 ```
 
+Here are the comments to help understand prorgams.
+
+Note: 
+1. `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
+The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
+This function reads key from the stack (in this experiment, key size is set as 4 bytes,
+so key = `*(u32 *)r2`), then looks up this key in the map,
+return the value address (i.e., &map[key]) if key in the map,
+else return NULL (i.e., 0).
+
+2. the instruction count of `BPF_LD_MAP_FD` is 2.
+
+benchmark_before.bpf
+```
+BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u16 *)(r1 + 0)
+BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -4),  // *(u16 *)(r10 - 4) = r0
+BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 2),    // r0 = *(u16 *)(r1 + 2)
+BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),  // *(u16 *) (r10 - 2) = r0
+BPF_LD_MAP_FD(BPF_REG_1, 4),                    // r1 = map fd 4
+BPF_MOV64_REG(BPF_REG_2, BPF_REG_10),           // r2 = r10
+BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, -4),          // r2 -= -4
+BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, BPF_FUNC_map_lookup_elem), // call map_lookup_elem
+BPF_JMP_IMM(BPF_JEQ, BPF_REG_0, 0, 1),          // if r0 == 0, jmp 1 (exit)
+BPF_MOV64_IMM(BPF_REG_0, 1),                    // r0 = 1
+BPF_EXIT_INSN(),                                // exit, return r0
+```
+benchmark_before.bpf.out (the first two intructions)
+```
+BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),   // r0 = *(u32 *)(r1 + 0)
+BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *) (r10 - 4) = r0
+```
+
 ##### Change the input program
 Here, we modify the input program from `benchmark_before.bpf` to `benchmark_after.bpf`. 
 We can see a difference between the output program `benchmark_before.bpf.out` and 
@@ -211,6 +258,37 @@ We can see that two one-byte load-and-store operations are optimized to one two-
 ---
 > LDXH 0 1 0
 > STXH 10 -2 0
+```
+
+Here are the comments to help understand prorgams.
+
+Note: `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
+The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
+This function reads key from the stack (in this experiment, key size is set as 2 bytes,
+so key = `*(u16 *)r2`), then looks up this key in the map,
+return the value address (i.e., &map[key]) if key in the map,
+else return NULL (i.e., 0).
+
+benchmark_before.k2
+```
+LDXB 0 1 0    // r0 = *(u8 *)(r1 + 0)
+STXB 10 -2 0  // *(u8 *)(r10 - 2) = r0
+LDXB 0 1 1    // r0 = *(u8 *)(r1 + 0)
+STXB 10 -1 0  // *(u8 *)(r10 - 1) = r0
+LDMAPID 1 0   // r1 = map fd 0
+MOV64XY 2 10  // r2 = r10
+ADD64XC 2 -2  // r2 -= 2
+CALL 1        // call map_lookup_elem
+JEQXC 0 0 1   // if r0 == 0, jmp 1 (exit)
+MOV64XC 0 1   // r0 = 1
+EXIT          // exit, return r0
+
+```
+
+benchmark_before.k2.out (the first two instructions)
+```
+LDXH 0 1 0    // r0 = *(u16 *)(r1 + 0)
+STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 ```
 
 ##### Change the input program
@@ -335,6 +413,14 @@ to 5 are optimized if window is set as [4,5].
 < BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),
 ---
 > BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
+```
+
+Here are the comments to help understand prorgams.
+```
+< BPF_MOV64_IMM(BPF_REG_0, 1),                      // r0 = 1
+< BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),  // *(u64 *)(r0 - 16) = r0
+---
+> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),           // *(u64 *) (r0 - 16) = 1
 ```
 
 ---
