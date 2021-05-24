@@ -43,7 +43,7 @@ cd sigcomm21_artifact
 In this experiment, we get started with a Hello World example to check whether installation and setup are prepared, and to show the basic functionality of K2: take an original program in K2 language and produce an optimized one.
 
 #### Run
-Estimated runtime: 1 minute.
+Estimated runtime: 20 seconds.
 ```
 cd 1_hello_world
 sh k2.sh
@@ -87,9 +87,9 @@ In this experiment, we introduce three input-output types supported by K2: K2 la
 Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write [BPF assembly programs](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47). K2 can take a program in BPF C marcos and produce an optmized one in BPF C marcos.
 
 ##### Run
-Estimated runtime: 2 minutes.
+Estimated runtime: 40 seconds.
 ```
-cd ../2_bpf_insn
+cd ../2_different_inputs/1_bpf_insn
 sh k2.sh benchmark_before.bpf
 ```
 ##### Expected result
@@ -126,9 +126,9 @@ todo
 K2 supports taking a program written in K2 language and producing an optimized program in K2. K2 language is a self-defined instruction set. Each instruction contains an opcode and one or multiple operands. Here(todo: add a link) is the documentation of K2 instructions. 
 
 ##### Run
-Estimated runtime: 1 minute.
+Estimated runtime: 25 seconds.
 ```
-cd ../2_different_inputs/1_k2_inst
+cd ../2_k2_inst
 sh k2.sh benchmark_before.k2
 ```
 ##### Expected result
@@ -167,10 +167,10 @@ todo
 We also optimize the object files of BPF programs (i.e., *.o files from the compilier).
 
 ##### Run
-Estimated runtime: 2 minutes.
+Estimated runtime: 1 minute.
 ```
 cd ../3_object_file
-sh k2.sh xdp1_kern xdp1
+sh k2.sh xdp1_kern.o xdp1
 ```
 ##### Expected result
 You will see K2 reduces 61 instructions to 59. 
@@ -213,7 +213,7 @@ We can see that there are two `goto +0` instructions in the optimized program. F
 Estimated runtime: 1 hour 30 mins
 ```
 cd ../../3_reproduce_results/1_insn_count
-sh k2.sh
+sh insn_count.sh
 ```
 
 ##### Expected result
