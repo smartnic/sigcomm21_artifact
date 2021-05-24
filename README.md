@@ -122,7 +122,7 @@ todo
 
 ---
 
-#### K2 language
+#### K2 language (optional)
 K2 supports taking a program written in K2 language and producing an optimized program in K2. K2 language is a self-defined instruction set. Each instruction contains an opcode and one or multiple operands. Here(todo: add a link) is the documentation of K2 instructions. 
 
 ##### Run
