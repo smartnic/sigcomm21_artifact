@@ -30,7 +30,6 @@ grep "compiling" tools/output/log.txt
 rm -rf tools/output
 rm -f tools/run_k2.py
 rm -f tools/$bm_name.*
-rm -rf $bm_name.insns
-rm -rf run_k2_log.tmp
-rm -rf old-extracted-files
+rm -f tools/run_k2_log.tmp
+rm -rf tools/old-extracted-files
 
