@@ -281,8 +281,8 @@ K2 reduces 4 intructions to 1 instruction by directly storing an immediate numbe
 #### K2 language (optional)
 K2 supports taking a program written in the K2 language and outputting an optimized program in the 
 K2 language. The K2 language is a self-defined instruction set developed by us. Each instruction
-contains an opcode and one or multiple operands. Here(todo: add a link) is the documentation of 
-the K2 language.
+contains an opcode and one or multiple operands. For more details, you could have a look at `interpret`
+function in the source code (dependencies/superopt/src/isa/ebpf/inst.cc).
 
 ##### Run
 Estimated runtime: 25 seconds.
