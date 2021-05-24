@@ -213,10 +213,66 @@ BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *) (r10 - 4) = r0
 
 ##### Change the input program
 Here, we modify the input program from `benchmark_before.bpf` to `benchmark_after.bpf`. 
-We can see a difference between the output program `benchmark_before.bpf.out` and 
-`benchmark_after.bpf.out`.
+We can see that K2 will produce a different output.
 
-(todo)
+Run the command to see the difference between `benchmark_before.bpf` and `benchmark_after.bpf`.
+```
+diff benchmark_before.bpf benchmark_after.bpf
+```
+
+You will get
+```
+1,4c1,4
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -4),
+< BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 2),
+< BPF_STX_MEM(BPF_H, BPF_REG_10, BPF_REG_0, -2),
+---
+> BPF_MOV64_IMM(BPF_REG_0, 0),
+> BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
+> BPF_MOV64_IMM(BPF_REG_0, 1),
+> BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5),
+```
+
+Here are the comments to help understand `benchmark_after.bpf`.
+
+Note: the third and fourth instructions are redundant, since the remaining program does not read from
+`(r10 - 5)`.
+```
+BPF_MOV64_IMM(BPF_REG_0, 0),                   // r0 = 0
+BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
+BPF_MOV64_IMM(BPF_REG_0, 1),                   // r0 = 1
+BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5), // *(u8 *) (r10 - 5) = r0
+```
+
+Run the command to invoke K2 to optimize `benchmark_after.bpf` and store the output in `benchmark_after.bpf.out`
+
+Estimated runtime: 40 seconds.
+```
+sh k2.sh benchmark_after.bpf
+```
+
+Run the following command to see the difference between the input and output programs
+```
+diff benchmark_after.bpf benchmark_after.bpf.out
+```
+
+You may get (this is the result from my run)
+```
+1,4c1
+< BPF_MOV64_IMM(BPF_REG_0, 0),
+< BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
+< BPF_MOV64_IMM(BPF_REG_0, 1),
+< BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5),
+---
+> BPF_ST_MEM(BPF_W, BPF_REG_10, -4, 0),
+```
+
+Comment: 
+```
+BPF_ST_MEM(BPF_W, BPF_REG_10, -4, 0),  // *(u32 *)(r10 - 4) = 0
+```
+K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instruction.
 
 ---
 
@@ -293,7 +349,69 @@ STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 
 ##### Change the input program
 
-todo
+Here, we modify the input program from `benchmark_before.k2` to `benchmark_after.k2`. 
+We can see that K2 will produce a different output.
+
+Run the command2 to see the difference between `benchmark_before.k2` and `benchmark_after.k2`.
+```
+diff benchmark_before.k2 benchmark_after.k2
+```
+
+You will get
+```
+1,4c1,4
+< LDXB 0 1 0
+< STXB 10 -2 0
+< LDXB 0 1 1
+< STXB 10 -1 0
+---
+> MOV64XC 0 0 
+> STXH 10 -2 0
+> MOV64XC 0 1
+> STXB 10 -5 0
+```
+
+Here are the comments to help understand `benchmark_after.k2`.
+
+Note: the third and fourth instructions are redundant, since the remaining program does not read from
+`(r10 - 5)`.
+```
+MOV64XC 0 0   // r0 = 0
+STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
+MOV64XC 0 1   // r0 = 1
+STXB 10 -5 0  // *(u8 *) (r10 - 5) = r0
+```
+
+Run the command to invoke K2 to optimize `benchmark_after.k2` and store the output in `benchmark_after.k2.out`
+
+Estimated runtime: 20 seconds.
+```
+sh k2.sh benchmark_after.k2
+```
+
+Run the following command to see the difference between the input and output programs
+```
+diff benchmark_after.k2 benchmark_after.k2.out
+```
+
+You may get (this is the result from my run)
+```
+1,4c1
+< MOV64XC 0 0 
+< STXH 10 -2 0
+< MOV64XC 0 1
+< STXB 10 -5 0
+---
+> STDW 10 -8 1
+```
+
+Comment: 
+```
+STDW 10 -8 1  // *(u64 *)(r10 - 8) = 1
+              // It means that (r10 - 7) to (r10 - 1) are set as 0, (r10 - 8) is set as 1
+              // In your run, the immediate number could be others because of the stochastic search
+```
+K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instruction.
 
 ---
 
