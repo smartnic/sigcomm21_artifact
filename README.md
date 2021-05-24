@@ -5,7 +5,7 @@ In this artifact, we provide instructions to reproduce the following claims in t
 
 1. [Artifact functionality (basic)] We exercise all of K2's main
 software components by showing how to optimize a small, simple
-program. [total estimated time: XX minutes]
+program. [total estimated time: 1 minute]
 
 2. [Artifact functionality (intermediate): changing program inputs.]
 We show how a user might change the input program to K2 to obtain
@@ -14,12 +14,12 @@ used by the Linux kernel (file extension .bpf), a home-grown format we
 developed (we call this the K2 language, files with extension
 .k2), and pre-compiled BPF object files. The compiler will output
 optimized versions of the programs in the same format that is
-consumed. [total estimated time: XX minutes]
+consumed. [total estimated time: 4 minutes]
 
 3. [Artifact functionality (advanced): changing compiler parameters.]
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The full set of available K2
-parameters is available at ____ [total estimated time: XX minutes.]
+parameters is available at ____ [total estimated time: 2 minutes.]
 
 4. [Result reproduction] Instruction count reduction: We provide
 scripts to reproduce a subset of results on the reductions in program
@@ -27,7 +27,7 @@ instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
-submission. [total estimated time: XX minutes.]
+submission. [total estimated time: 90 minutes.]
 
 5. [Result reproduction] Impact of optimizations: We provide scripts to
 reproduce a subset of results on the impact of optimizations on
@@ -35,7 +35,7 @@ reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
 we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 1 hour in our
-submission. [total estimated time: XX minutes.]
+submission. [total estimated time: 120 minutes.]
 
 ## Note
 1. The results showing below can only be used for reference,
@@ -550,7 +550,7 @@ Here are the comments to help understand prorgams.
 #### Improvements in program compactness from K2 (Table 1 in the paper)
 
 #### Run
-Estimated runtime: 1 hour 30 mins
+Estimated runtime: 1 hour 30 minutes
 ```
 cd ../../4_reproduce_results/1_insn_count
 sh insn_count.sh
