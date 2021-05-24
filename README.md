@@ -89,7 +89,7 @@ cd 1_hello_world
 sh k2.sh
 ```
 
-#### Expected Result 
+#### Result for reference 
 After running the above commands, you will see some prints on the screen. The key information is about the performance costs (i.e., instruction count) of the input and output programs. It shows that K2 reduces 3 instructions to 2 instructions for the input program.
 ```
 ...
@@ -154,7 +154,7 @@ sh k2.sh benchmark_before.bpf
 The second command feeds program `benchmark_before.bpf` to K2, and K2 will produce an output program in
 `benchmark_before.bpf.out`
 
-##### Expected result
+##### Result for reference
 You will see K2 reduces 12 instructions to 10. 
 ```
 ...
@@ -291,7 +291,7 @@ sh k2.sh benchmark_before.k2
 The second command feeds program `benchmark_before.k2` to K2, and K2 will produce an output program in
 `benchmark_before.k2.out`
 
-##### Expected result
+##### Result for reference
 You will see K2 reduces 12 instructions to 10. 
 ```
 ...
@@ -427,7 +427,7 @@ sh k2.sh xdp1_kern.o xdp1
 ```
 The second command feeds the program `xdp1` in the object file `xdp1_kern.o` to K2, and K2 will produce an output object file in `xdp1_kern.o.out`
 
-##### Expected result
+##### Result for reference
 You will see K2 reduces 61 instructions to 59. 
 ```
 ...
@@ -482,7 +482,7 @@ program in `benchmark_win1.bpf.out`, while for the second command, K2 takes the 
 as an input to optimize window [4,5] and stores output program in `benchmark_win2.bpf.out`
 
 
-##### Expected result
+##### Result for reference
 For window [0,3], K2 reduces 16 instructions to 14, while for window [4,5], the number of instructions is
 reduced to 15.
 
@@ -556,7 +556,10 @@ cd ../../4_reproduce_results/1_insn_count
 sh insn_count.sh
 ```
 
-##### Expected result
+##### Result for reference
+Note: the result reproduced on your machine may be different to the result from my run
+because of the stochastic search. The keypoint is that `Number of instructions` of K2
+is the same as / similar to the table showing here.
 ```
 +----------------------------------------------------+
 |               Number of instructions               |
@@ -605,7 +608,10 @@ sh eq_chk.sh
 ```
 
 
-##### Expected result
+##### Result for reference
+Note: the result reproduced on your machine may be different to the result from my run,
+the keypoint is that for each benchmark, equivalence-checking time with optimizations
+I,II,III,IV is smaller than that without at least one of optimizations.
 ```
 
 +-----------------------------------------------------------------------------------+
