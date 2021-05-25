@@ -3,11 +3,12 @@
 ## Claims to reproduce.
 In this artifact, we provide instructions to reproduce the following claims in the paper.
 
-1. [Artifact functionality (basic)] We exercise all of K2's main
+1. [Artifact functionality (basic)](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
+We exercise all of K2's main
 software components by showing how to optimize a small, simple
 program. [total estimated time: 1 minute]
 
-2. [Artifact functionality (intermediate): changing program inputs.]
+2. [Artifact functionality (intermediate):changing program inputs.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
 We show how a user might change the input program to K2 to obtain
 different outputs. K2 accepts programs in three formats: BPF C macros
 used by the Linux kernel (file extension .bpf), a home-grown format we
@@ -16,7 +17,7 @@ developed (we call this the K2 language, files with extension
 optimized versions of the programs in the same format that is
 consumed. [total estimated time: 4 minutes]
 
-3. [Artifact functionality (advanced): changing compiler parameters.]
+3. [Artifact functionality (advanced): changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The full set of available K2
 parameters is available 
@@ -24,14 +25,16 @@ parameters is available
 [total estimated time: 2 minutes.]
 
 4. [Result reproduction]
-  - 4.1 Instruction count reduction: We provide
+  - 4.1 [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#41-improvements-in-program-compactness-from-k2-table-1-in-the-paper)
+: We provide
 scripts to reproduce a subset of results on the reductions in program
 instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
 submission. [total estimated time: 90 minutes.]
-  * 4.2 Impact of optimizations: We provide scripts to
+  * 4.2 [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#42-reductions-in-equivalence-checking-time-table-3-in-the-paper)
+: We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
