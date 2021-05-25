@@ -23,21 +23,22 @@ parameters is available
 [here](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) 
 [total estimated time: 2 minutes.]
 
-4. [Result reproduction] Instruction count reduction: We provide
+4. [Result reproduction]
+  - 4.1 Instruction count reduction: We provide
 scripts to reproduce a subset of results on the reductions in program
 instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
 submission. [total estimated time: 90 minutes.]
-
-5. [Result reproduction] Impact of optimizations: We provide scripts to
+  * 4.2 Impact of optimizations: We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
 we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 1 hour in our
 submission. [total estimated time: 120 minutes.]
+
 
 ## Note
 1. The results showing below can only be used for reference,
@@ -80,7 +81,7 @@ cd sigcomm21_artifact
 
 
 ---
-### Hello World
+### 1 Hello World
 In this experiment, we get started with a Hello World program to show the basic functionality of K2:
 take an input program `benchmark.k2` written in the K2 language, optimize this program and produce an output
 program `benchmark.k2.out` in the K2 language.
@@ -136,12 +137,12 @@ EXIT        // exit, return r0
 
 ---
 
-### Different inputs
+### 2 Different inputs
 In this experiment, we introduce three input-output formats supported by K2: BPF C macros, the K2 language, and pre-compiled BPF object files one by one. In addition, we show examples of modifying the input program.
 
 ---
 
-#### BPF C macros
+#### 2.1 BPF C macros
 
 Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write [BPF assembly programs](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47).
 In this experiment, we show K2 takes a program in BPF C marcos and produces an optmized one in BPF C marcos.
@@ -279,7 +280,7 @@ K2 reduces 4 intructions to 1 instruction by directly storing an immediate numbe
 
 ---
 
-#### K2 language (optional)
+#### 2.2 K2 language (optional)
 K2 supports taking a program written in the K2 language and outputting an optimized program in the 
 K2 language. The K2 language is a self-defined instruction set developed by us. Each instruction
 contains an opcode and one or multiple operands. For more details, you could have a look at `interpret`
@@ -418,7 +419,7 @@ K2 reduces 4 intructions to 1 instruction by directly storing an immediate numbe
 
 ---
 
-#### BPF object file
+#### 2.3 BPF object file
 
 K2 also optimizes pre-compiled object files of BPF programs (i.e., \*.o files from the compilier).
 
@@ -464,7 +465,7 @@ We can see that there are two `goto +0` instructions in the output program. For 
 
 ---
 
-### Change compiler parameters
+### 3 Change compiler parameters
 
 There are some parameters for K2. In this experiment, we will introduce window parameters by two examples of
 setting different window parameters for the same input program to be optimized. 
@@ -576,11 +577,11 @@ Here are the comments to help understand programs.
 
 ---
 
-### Reproduce the results
+### 4 Reproduce the results
 
 ---
 
-#### Improvements in program compactness from K2 (Table 1 in the paper)
+#### 4.1 Improvements in program compactness from K2 (Table 1 in the paper)
 
 #### Run
 Estimated runtime: 1 hour 30 minutes
@@ -631,7 +632,7 @@ is the same as / similar to the table showing here.
 ```
 ---
 
-#### Reductions in equivalence-checking time (Table 3 in the paper)
+#### 4.2 Reductions in equivalence-checking time (Table 3 in the paper)
 
 ##### Run
 Estimated runtime: 2 hours
