@@ -120,19 +120,19 @@ cd sigcomm21_artifact
 ```
 
 ---
-### 1 Hello World
+## 1 Hello World
 In this experiment, we get started with a Hello World program to show the basic functionality of K2.
 The compiler takes an input program `benchmark.k2` written in the K2 language, optimizes this program and produces an output
 program `benchmark.k2.out` in the K2 language.
 
-#### Run
+### Run
 Estimated runtime: 20 seconds.
 ```
 cd 1_hello_world
 sh k2.sh
 ```
 
-#### Result for reference 
+### Result for reference 
 After running the above commands, you will see some prints on the screen. The key information is about the performance costs (i.e., instruction count) of the input and output programs. It shows that K2 reduces 3 instructions to 2 instructions for the input program.
 ```
 ...
@@ -176,16 +176,16 @@ EXIT        // exit, return r0
 
 ---
 
-### 2 Changing the input program
+## 2 Changing the input program
 In this experiment, we introduce three input-output program formats supported by K2: BPF C macros, the K2 macro language, and pre-compiled BPF object files, and show how a user might modify a given program to see different outputs. Kernel developers often hard-code BPF assembly similar to the first format (BPF C macros); most real code that uses BPF is written in C and compiled by `Clang` into the BPF object file format, which corresponds to the third format (pre-compiled BPF object files). We show all three program formats since the first two formats are easier to read and understand (especially to understand specific optimizations), while the last format is practically the most used and deployed.
 
-#### 2.1 BPF C macros
+### 2.1 BPF C macros
 
 The Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write BPF assembly programs ([an example](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47)).
 In this experiment, we show K2 takes a program written in BPF C macros and produces an optimized program also written in BPF C macros.
 We also use an example to show how a user might change the input program.
 
-##### Run
+#### Run
 Estimated runtime: 40 seconds.
 ```
 cd ../2_different_inputs/1_bpf_insn
@@ -195,7 +195,7 @@ sh k2.sh benchmark_before.bpf
 The second command feeds program `benchmark_before.bpf` to K2, and K2 will produce an output program in
 `benchmark_before.bpf.out`
 
-##### Result for reference
+#### Result for reference
 You will see K2 reduces 12 instructions to 10. 
 ```
 ...
@@ -252,7 +252,7 @@ else returns `NULL` (i.e., 0).
 The instruction `BPF_LD_MAP_FD` occupies two "slots", i.e., the space of two "regular" BPF instructions. 
 One of the slots holds a 64-bit map descriptor.
 
-##### Changing the input program
+#### Changing the input program
 
 Suppose we wanted to modify the input program from `benchmark_before.bpf` to `benchmark_after.bpf`. 
 We can recompile the program and observe the new output that K2 will produce.
@@ -319,11 +319,11 @@ K2 reduces 4 instructions to 1 instruction by directly storing an immediate numb
 
 ---
 
-#### 2.2 K2 language (optional)
+### 2.2 K2 language (optional)
 
 This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 macro language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
 
-##### Run
+#### Run
 Estimated runtime: 25 seconds.
 ```
 cd ../2_k2_inst
@@ -332,7 +332,7 @@ sh k2.sh benchmark_before.k2
 The second command feeds program `benchmark_before.k2` to K2, and K2 will produce an output program in
 `benchmark_before.k2.out`
 
-##### Result for reference
+#### Result for reference
 You will see K2 reduces 12 instructions to 10. 
 ```
 ...
@@ -388,7 +388,7 @@ LDXH 0 1 0    // r0 = *(u16 *)(r1 + 0)
 STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 ```
 
-##### Changing the input program
+#### Changing the input program
 
 Here, we modify the input program from `benchmark_before.k2` to `benchmark_after.k2`. 
 We can observe that K2 will produce a different output.
@@ -454,11 +454,11 @@ K2 reduces 4 intructions to 1 instruction by directly storing an immediate numbe
 
 ---
 
-#### 2.3 BPF object file
+### 2.3 BPF object file
 
 K2 can optimize BPF object files (`.o` files) produced as a result of taking BPF code written in C and compiling with `clang`. The result is another (optimized) object file (`.o`), which can be used as a drop-in replacement for the original file.
 
-##### Run
+#### Run
 Estimated runtime: 1 minute.
 ```
 cd ../3_object_file
@@ -466,7 +466,7 @@ sh k2.sh xdp1_kern.o xdp1
 ```
 The second command feeds the program `xdp1` in the object file `xdp1_kern.o` to K2, and K2 will produce an output object file in `xdp1_kern.o.out`
 
-##### Result for reference
+#### Result for reference
 You will see K2 reduces 61 instructions to 59. 
 ```
 ...
@@ -500,7 +500,7 @@ We can see that there are two `goto +0` instructions in the output program. For 
 
 ---
 
-### 3 Changing compiler parameters
+## 3 Changing compiler parameters
 
 K2 uses stochastic search to find higher-performance programs that are semantically equivalent to the input.
 The search uses several parameters. (If you wish to take a look, the [full set of available K2
@@ -521,7 +521,7 @@ parameters for the same input program.
 `Note`: In this section, We use `window [s,e]` to represent the program segment from `s` to `e` 
 for convenience.
 
-#### Run one window: window of instructions 0--3
+### Run over one window
 Estimated runtime: 40 seconds
 ```
 cd ../../3_change_parameters/
@@ -532,7 +532,7 @@ This command invokes K2 to optimize window [0,3] for program `benchmark.bpf`, an
 program in `benchmark_win1.bpf.out`.
 
 
-##### Result for reference
+#### Result for reference
 For window [0,3], in our run, K2 reduces 16 instructions to 14.
 
 ```
@@ -576,7 +576,7 @@ Here are some comments to help understand the program.
 ```
 
 
-#### Run
+### Run over second window
 Estimated runtime: 40 seconds
 ```
 sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
@@ -586,7 +586,7 @@ For this command, K2 takes the same program `benchmark.bpf` as an input to optim
 and stores output program in `benchmark_win2.bpf.out`
 
 
-##### Result for reference
+#### Result for reference
 For window [4,5], the number of instructions is reduced to 15.
 
 ```
@@ -624,7 +624,7 @@ If you take a look at [the full command line](https://github.com/smartnic/sigcom
 
 ---
 
-### 4 Specific ACM SIGCOMM criteria for artifact functionality
+## 4 Specific ACM SIGCOMM criteria for artifact functionality
 
 [Estimated reading time: 2 minutes]
 
@@ -642,18 +642,18 @@ _Exercisability_: The code needed to run the experiments in the paper is in the 
 
 ---
 
-### Reproduction of empirical evaluation results
+## Reproduction of empirical evaluation results
 
-#### 5 Improvements in program compactness from K2 (Table 1 in the paper)
+## 5 Improvements in program compactness from K2 (Table 1 in the paper)
 
-#### Run
+### Run
 Estimated runtime: 1 hour 30 minutes
 ```
 cd ../4_reproduce_results/1_insn_count
 sh insn_count.sh
 ```
 
-##### Result for reference
+#### Result for reference
 Note: the result reproduced on your machine may be different to the result from our run
 because of the stochastic search. The keypoint is that `Number of instructions` of K2
 is the same as / similar to the table showing here.
@@ -695,9 +695,9 @@ is the same as / similar to the table showing here.
 ```
 ---
 
-#### 6 Reductions in equivalence-checking time (Table 3 in the paper)
+## 6 Reductions in equivalence-checking time (Table 3 in the paper)
 
-##### Run
+### Run
 Estimated runtime: 2 hours
 ```
 cd ../2_eq_chk_time
@@ -705,7 +705,7 @@ sh eq_chk.sh
 ```
 
 
-##### Result for reference
+#### Result for reference
 Note: the result reproduced on your machine may be different from the result from our run.
 The key point is that for each benchmark, equivalence-checking time with optimizations
 I,II,III,IV is smaller than that without at least one of optimizations. Here is a sample result
