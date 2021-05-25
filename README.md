@@ -40,7 +40,7 @@ We provide instructions to help validate the following claims about the paper.
 *Artifact functionality (sections 1 through 4).* We show how to exercise the compiler through different inputs, input formats, and parameters. 
 
 1. [Hello world](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
-This task exercises all of K2's main software components by showing how to optimize a small, simple program. [total estimated time: 1 minute]
+This task exercises all of K2's main software components by showing how to optimize a small, simple program. [total estimated machine time: 1 minute; human time: 5 minutes]
 
 2. [Changing the input program.](https://github.com/smartnic/sigcomm21_artifact#2-Changing-the-input-program)
 We show how a user might change the input program to K2 to obtain
@@ -49,16 +49,16 @@ used by the Linux kernel (file extension .bpf), a home-grown instruction format 
 developed that we call this the [K2 macro language](https://github.com/smartnic/sigcomm21_artifact#22-k2-language-optional) (files with extension
 .k2), and [pre-compiled BPF object files](https://github.com/smartnic/sigcomm21_artifact#23-bpf-object-file). The compiler will output
 optimized versions of the programs in the same format that is
-consumed. [total estimated time: 4 minutes]
+consumed. [total estimated machine time: 4 minutes; human time: 15 minutes]
 
 3. [Changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The [full set of available K2
 parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) is available.
-[total estimated time: 2 minutes.]
+[total estimated machine time: 2 minutes; human time: 10 minutes]
 
 4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
-This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated reading time: 2 minutes]
+This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated (human) time: 2 minutes]
 
 *Reproduction of results (sections 5 and 6).* We show how to reproduce the main claims in the empirical evaluation of the paper.
 
