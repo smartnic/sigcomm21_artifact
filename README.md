@@ -1,38 +1,77 @@
 # Artifact for submission "Synthesizing Safe and Efficient Kernel Extensions for Packet Processing"
 
-## Claims to reproduce.
-In this artifact, we provide instructions to reproduce the following claims in the paper.
+## Abstract of the accepted paper
 
-1. [Artifact functionality (basic)](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
-We exercise all of K2's main
-software components by showing how to optimize a small, simple
-program. [total estimated time: 1 minute]
+Extended Berkeley Packet Filter (BPF) has emerged as a powerful method to extend
+packet-processing functionality in the Linux operating system.
+BPF allows users to write code in high-level languages like C or Rust and attach
+them to specific points in the kernel, such as the network device driver.
+To ensure safe execution of a user-developed BPF program in kernel context,
+Linux employs an in-kernel static checker, that only accepts the program if it
+can be shown to be crash-free and isolated from the rest of kernel memory.
 
-2. [Artifact functionality (intermediate): changing program inputs.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
+However, BPF programming is not easy. One, even modest-size BPF programs can be
+rejected by the kernel checker as they are construed to be too large to
+analyze. Two, the in-kernel static checker may incorrectly determine that an
+eBPF program exhibits unsafe behaviors.
+Three, even small performance optimizations to BPF code (e.g., 5% gains)
+must be meticulously hand-crafted by expert developers.
+Optimizing compilers for BPF are severely hampered because the kernel checker's
+safety considerations are incompatible with rule-based optimizations used in
+traditional compilers.
+
+We present K2, a program-synthesis-based compiler that automatically
+optimizes BPF bytecode with formal correctness and safety guarantees.
+K2 leverages stochastic search, a formalization of BPF in first-order
+logic, and several domain-specific techniques to accelerate equivalence checking
+of BPF programs. K2 produces code with 6--26% reduced size, reduces
+average latency by 13--85 microseconds in our setup,
+and improves the number of packets per second
+processed per core by up to 5% relative to `clang -O3`,
+across programs drawn from
+production systems at Cilium and the Linux kernel. BPF programs produced by
+K2 can pass the kernel checker.
+
+## Claims to validate
+We provide instructions to help validate the following claims about the paper. 
+
+*Artifact availability. (section 0).* The source code of the K2 compiler and all subsidiary repositories and evaluation scripts are publicly available at https://github.com/smartnic/ We also make a [Docker container](https://github.com/smartnic/sigcomm21_artifact##0-instructions-to-run-the-artifact) available for anyone who wishes to quickly run the compiler and reproduce smaller results. The `install.sh` script in this repository provides instructions to download all the required components if one is building a container image from scratch.
+
+*Artifact functionality (sections 1 through 4).* We show how to exercise the compiler through different inputs, input formats, and parameters. 
+
+1. [Hello world](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
+This task exercises all of K2's main software components by showing how to optimize a small, simple program. [total estimated time: 1 minute]
+
+2. [Changing the input program.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
 We show how a user might change the input program to K2 to obtain
-different outputs. K2 accepts programs in three formats: BPF C macros
-used by the Linux kernel (file extension .bpf), a home-grown format we
-developed (we call this the K2 language, files with extension
-.k2), and pre-compiled BPF object files. The compiler will output
+different outputs. K2 accepts programs in three formats: [BPF C macros](https://github.com/smartnic/sigcomm21_artifact#21-bpf-c-macros)
+used by the Linux kernel (file extension .bpf), a home-grown instruction format we
+developed that we call this the [K2 macro language](https://github.com/smartnic/sigcomm21_artifact#22-k2-language-optional) (files with extension
+.k2), and [pre-compiled BPF object files](https://github.com/smartnic/sigcomm21_artifact#23-bpf-object-file). The compiler will output
 optimized versions of the programs in the same format that is
 consumed. [total estimated time: 4 minutes]
 
-3. [Artifact functionality (advanced): changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
+3. [Changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The full set of available K2
 parameters is available 
 [here](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) 
 [total estimated time: 2 minutes.]
 
-4. [Result reproduction]
-  - 4.1 [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#41-improvements-in-program-compactness-from-k2-table-1-in-the-paper): We provide
+4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
+This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated reading time: 3 minutes]
+
+*Reproduction of results (sections 5 and 6).* We show how to reproduce the main claims in the empirical evaluation of the paper.
+
+5. [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#5-improvements-in-program-compactness-from-k2-table-1-in-the-paper): We provide
 scripts to reproduce a subset of results on the reductions in program
 instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
 submission. [total estimated time: 90 minutes.]
-  * 4.2 [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#42-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
+
+6. [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#6-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
@@ -41,31 +80,32 @@ benchmarks where the best programs were found within 1 hour in our
 submission. [total estimated time: 120 minutes.]
 
 
-## Note
-1. The results showing below can only be used for reference,
-since K2 leverages stochastic search so that we cannot guarantee the results
-are exactly the same for every run.
+## Notes and caveats
+1. The results shown below can only be used for reference.
+Since K2 leverages stochastic search, we cannot guarantee that the results
+are exactly the same for every run.  We have observed that small programs
+often exhibit deterministic behavior.
 
 2. K2 is a synthesizing compiler that optimizes BPF programs better than
 traditional compilers like clang. However, it does so at the expense
 of additional compile time. When you run the compiler on a program,
-you may often need to wait for much longer to see results. We have
-made our best efforts to provide sample programs that can
-near-interactively compiled on a reasonably powerful laptop, with
-estimations of how long you might have to wait for each compilation to
+you may often need to wait longer (e.g., than using `clang`) to see results. We have
+made our best efforts to provide sample programs that can be
+near-interactively compiled on a reasonably powerful laptop, and we
+provide estimations of how long you might have to wait for each compilation to
 finish.
 
-3. The estimated time for the evaulation of the artifact is based on a machine 
+3. The estimated times for the evaulation of the artifact is based on a machine 
 with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memory.
 
 ---
 
-## Instructions to run the artifact.
+## #0. Instructions to run the artifact
 
-### Downloading prebuilt Docker Image
+### Downloading the prebuilt Docker Image
 
 1. Install docker if it is not installed already by following the
-documentation [here](https://docs.docker.com/install/).
+[Docker install documentation](https://docs.docker.com/install/).
 
 2. Download the prebuilt docker image (shasum: 469dbb6cb935342bd7fbd5687c395ba9cb7ef5e5)
 ```
@@ -79,7 +119,6 @@ docker load < docker.tar.gz
 docker run -it sigcomm21_artifact:v1 bash
 cd sigcomm21_artifact
 ```
-
 
 ---
 ### 1 Hello World
@@ -578,11 +617,15 @@ Here are the comments to help understand programs.
 
 ---
 
-### 4 Reproduce the results
+### 4 Specific ACM SIGCOMM criteria for artifact functionality
+
+FIXME
 
 ---
 
-#### 4.1 Improvements in program compactness from K2 (Table 1 in the paper)
+### Reproduction of empirical evaluation results
+
+#### 5 Improvements in program compactness from K2 (Table 1 in the paper)
 
 #### Run
 Estimated runtime: 1 hour 30 minutes
@@ -633,7 +676,7 @@ is the same as / similar to the table showing here.
 ```
 ---
 
-#### 4.2 Reductions in equivalence-checking time (Table 3 in the paper)
+#### 6 Reductions in equivalence-checking time (Table 3 in the paper)
 
 ##### Run
 Estimated runtime: 2 hours
