@@ -58,7 +58,7 @@ parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) i
 [total estimated time: 2 minutes.]
 
 4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
-This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated reading time: 3 minutes]
+This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated reading time: 2 minutes]
 
 *Reproduction of results (sections 5 and 6).* We show how to reproduce the main claims in the empirical evaluation of the paper.
 
@@ -626,9 +626,19 @@ If you take a look at [the full command line](https://github.com/smartnic/sigcom
 
 ### 4 Specific ACM SIGCOMM criteria for artifact functionality
 
-_Documentation_: Our artifact includes the Docker container used to perform these experiments, the source code of the compiler and subsidiary repositories (including experimental scripts).
+[Estimated reading time: 2 minutes]
 
-FIXME
+_Documentation_: Our artifact includes the Docker container, which includes the primary source code of the compiler as well as some subsidiary repositories containing experimental evaluation scripts. This README serves as the documentation of the compiler showing how to exercise the artifact.
+
+_Completeness_: The source code of the compiler attached in the container (see the `dependencies` folder in the container) contains all the main components of the compiler described in the paper. Inside the folder `/sigcomm21_artifact/dependencies/superopt` in the container:
+
+`src/search` contains the code related to the stochastic search (section 3 in the paper)
+
+`src/verify` contains the generic framework for program equivalence checking within K2 (high-level section 4 logic)
+
+`src/isa/ebpf` contains the formalization of the BPF instruction set in first-order logic, for both program equivalence checking and safety (sections 4, 5, 6)
+
+_Exercisability_: The code needed to run the experiments in the paper is in the folder `3_reproduce_results` in the container image.
 
 ---
 
