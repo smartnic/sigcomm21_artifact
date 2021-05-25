@@ -42,7 +42,7 @@ We provide instructions to help validate the following claims about the paper.
 1. [Hello world](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
 This task exercises all of K2's main software components by showing how to optimize a small, simple program. [total estimated time: 1 minute]
 
-2. [Changing the input program.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
+2. [Changing the input program.](https://github.com/smartnic/sigcomm21_artifact#2-Changing-the-input-program)
 We show how a user might change the input program to K2 to obtain
 different outputs. K2 accepts programs in three formats: [BPF C macros](https://github.com/smartnic/sigcomm21_artifact#21-bpf-c-macros)
 used by the Linux kernel (file extension .bpf), a home-grown instruction format we
@@ -121,8 +121,8 @@ cd sigcomm21_artifact
 
 ---
 ### 1 Hello World
-In this experiment, we get started with a Hello World program to show the basic functionality of K2:
-take an input program `benchmark.k2` written in the K2 language, optimize this program and produce an output
+In this experiment, we get started with a Hello World program to show the basic functionality of K2.
+The compiler takes an input program `benchmark.k2` written in the K2 language, optimizes this program and produces an output
 program `benchmark.k2.out` in the K2 language.
 
 #### Run
@@ -159,7 +159,7 @@ MOV64XC 0 2
 EXIT
 ```
 
-Here are the comments to help understaned programs.
+Here are some comments to help understand the meanings of the two programs. Each line of the benchmark files is one instruction. `r0, r1, ...` are BPF registers.
 
 benchmark.k2
 
@@ -176,15 +176,13 @@ EXIT        // exit, return r0
 
 ---
 
-### 2 Different inputs
-In this experiment, we introduce three input-output formats supported by K2: BPF C macros, the K2 language, and pre-compiled BPF object files one by one. In addition, we show examples of modifying the input program.
-
----
+### 2 Changing the input program
+In this experiment, we introduce three input-output program formats supported by K2: BPF C macros, the K2 macro language, and pre-compiled BPF object files, and show how a user might modify a given program to see different outputs. Kernel developers often hard-code BPF assembly similar to the first format (BPF C macros); most real code that uses BPF is written in C and compiled by `Clang` into the BPF object file format, which corresponds to the third format (pre-compiled BPF object files). We show all three program formats since the first two formats are easier to read and understand (especially to understand specific optimizations), while the last format is practically the most used and deployed.
 
 #### 2.1 BPF C macros
 
-Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write [BPF assembly programs](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47).
-In this experiment, we show K2 takes a program in BPF C marcos and produces an optmized one in BPF C marcos.
+The Linux kernel supports utilizing [BPF C macros](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/bpf_insn.h) to write BPF assembly programs ([an example](https://elixir.bootlin.com/linux/v5.4/source/samples/bpf/sock_example.c#L47)).
+In this experiment, we show K2 takes a program written in BPF C macros and produces an optimized program also written in BPF C macros.
 We also use an example to show how a user might change the input program.
 
 ##### Run
@@ -222,17 +220,7 @@ We can see that 2 two-byte load-and-store operations are optimized to 1 four-byt
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
 ```
 
-Here are the comments to help understand programs.
-
-Note: 
-1. `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
-The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
-This function reads key from the stack (in this experiment, key size is set as 4 bytes,
-so key = `*(u32 *)r2`), then looks up this key in the map,
-return the value address (i.e., &map[key]) if key in the map,
-else return NULL (i.e., 0).
-
-2. the instruction count of `BPF_LD_MAP_FD` is 2.
+Here are some comments to help understand the programs.
 
 benchmark_before.bpf
 ```
@@ -254,16 +242,27 @@ BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),   // r0 = *(u32 *)(r1 + 0)
 BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
 ```
 
-##### Change the input program
-Here, we modify the input program from `benchmark_before.bpf` to `benchmark_after.bpf`. 
-We can see that K2 will produce a different output.
+The comment `call map_lookup_elem` refers to the instruction `r0 = map_lookup_elem(map, &key)`.
+The first function parameter `map` is read from `r1`, the second `&key` is read from `r2`.
+This function reads a key from the stack memory (in this experiment, key size is set as 4 bytes,
+so key = `*(u32 *)r2`), looks up this key in the map pointed to by `r1`,
+and returns the value address (i.e., &map[key]) if the key exists in the map,
+else returns `NULL` (i.e., 0).
+
+The instruction `BPF_LD_MAP_FD` occupies two "slots", i.e., the space of two "regular" BPF instructions. 
+One of the slots holds a 64-bit map descriptor.
+
+##### Changing the input program
+
+Suppose we wanted to modify the input program from `benchmark_before.bpf` to `benchmark_after.bpf`. 
+We can recompile the program and observe the new output that K2 will produce.
 
 Run the command to see the difference between `benchmark_before.bpf` and `benchmark_after.bpf`.
 ```
 diff benchmark_before.bpf benchmark_after.bpf
 ```
 
-You will get
+You should see
 ```
 1,4c1,4
 < BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),
@@ -277,10 +276,11 @@ You will get
 > BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5),
 ```
 
-Here are the comments to help understand `benchmark_after.bpf`.
+Here are some notes to understand the changes in the `benchmark_after.bpf` program relative to `benchmark_before.bpf`.
 
-Note: the third and fourth instructions are redundant, since the remaining program does not read from
+You may observe that the third and fourth instructions are redundant, since the rest of the program does not read from
 `(r10 - 5)`.
+
 ```
 BPF_MOV64_IMM(BPF_REG_0, 0),                   // r0 = 0
 BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
@@ -288,9 +288,9 @@ BPF_MOV64_IMM(BPF_REG_0, 1),                   // r0 = 1
 BPF_STX_MEM(BPF_B, BPF_REG_10, BPF_REG_0, -5), // *(u8 *)(r10 - 5) = r0
 ```
 
-Run the command to invoke K2 to optimize `benchmark_after.bpf` and store the output in `benchmark_after.bpf.out`
+Let's run the command that invokes K2 to optimize `benchmark_after.bpf`. The output is stored in `benchmark_after.bpf.out`
+This usually takes about 40 seconds.
 
-Estimated runtime: 40 seconds.
 ```
 sh k2.sh benchmark_after.bpf
 ```
@@ -300,7 +300,7 @@ Run the following command to see the difference between the input and output pro
 diff benchmark_after.bpf benchmark_after.bpf.out
 ```
 
-You may get (this is the result from my run)
+You may get (this is the result from one of our runs)
 ```
 1,4c1
 < BPF_MOV64_IMM(BPF_REG_0, 0),
@@ -311,19 +311,17 @@ You may get (this is the result from my run)
 > BPF_ST_MEM(BPF_W, BPF_REG_10, -4, 0),
 ```
 
-Comment: 
+K2 has discovered an optimization using the instruction
 ```
 BPF_ST_MEM(BPF_W, BPF_REG_10, -4, 0),  // *(u32 *)(r10 - 4) = 0
 ```
-K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
+K2 reduces 4 instructions to 1 instruction by directly storing an immediate number on the stack and removing the redundant instructions.
 
 ---
 
 #### 2.2 K2 language (optional)
-K2 supports taking a program written in the K2 language and outputting an optimized program in the 
-K2 language. The K2 language is a self-defined instruction set developed by us. Each instruction
-contains an opcode and one or multiple operands. For more details, you could have a look at `interpret`
-function in the source code (dependencies/superopt/src/isa/ebpf/inst.cc).
+
+This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 macro language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
 
 ##### Run
 Estimated runtime: 25 seconds.
@@ -359,16 +357,16 @@ We can see that two one-byte load-and-store operations are optimized to one two-
 > STXH 10 -2 0
 ```
 
-Here are the comments to help understand programs.
+Here are some comments to help understand programs.
 
 Note: `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
 The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
 This function reads key from the stack (in this experiment, key size is set as 2 bytes,
 so key = `*(u16 *)r2`), then looks up this key in the map,
-return the value address (i.e., &map[key]) if key in the map,
-else return NULL (i.e., 0).
+return the value address (i.e., &map[key]) if the key is in the map,
+else returns `NULL` (i.e., 0).
 
-benchmark_before.k2
+benchmark_before.k2:
 ```
 LDXB 0 1 0    // r0 = *(u8 *)(r1 + 0)
 STXB 10 -2 0  // *(u8 *)(r10 - 2) = r0
@@ -384,16 +382,16 @@ EXIT          // exit, return r0
 
 ```
 
-benchmark_before.k2.out (the first two instructions)
+benchmark_before.k2.out: (the first two instructions)
 ```
 LDXH 0 1 0    // r0 = *(u16 *)(r1 + 0)
 STXH 10 -2 0  // *(u16 *)(r10 - 2) = r0
 ```
 
-##### Change the input program
+##### Changing the input program
 
 Here, we modify the input program from `benchmark_before.k2` to `benchmark_after.k2`. 
-We can see that K2 will produce a different output.
+We can observe that K2 will produce a different output.
 
 Run the command to see the difference between `benchmark_before.k2` and `benchmark_after.k2`.
 ```
@@ -414,7 +412,7 @@ You will get
 > STXB 10 -5 0
 ```
 
-Here are the comments to help understand `benchmark_after.k2`.
+Here are some comments to help understand `benchmark_after.k2`.
 
 Note: the third and fourth instructions are redundant, since the remaining program does not read from
 `(r10 - 5)`.
@@ -425,9 +423,7 @@ MOV64XC 0 1   // r0 = 1
 STXB 10 -5 0  // *(u8 *)(r10 - 5) = r0
 ```
 
-Run the command to invoke K2 to optimize `benchmark_after.k2` and store the output in `benchmark_after.k2.out`
-
-Estimated runtime: 20 seconds.
+Run the following command to invoke K2 to optimize `benchmark_after.k2` and store the output in `benchmark_after.k2.out` (estimated runtime: 20 seconds.)
 ```
 sh k2.sh benchmark_after.k2
 ```
@@ -437,7 +433,7 @@ Run the following command to see the difference between the input and output pro
 diff benchmark_after.k2 benchmark_after.k2.out
 ```
 
-You may get (this is the result from my run)
+You may see (this is the result from our run)
 ```
 1,4c1
 < MOV64XC 0 0 
@@ -448,7 +444,7 @@ You may get (this is the result from my run)
 > STDW 10 -8 1
 ```
 
-Comment: 
+Comment to understand the modification:
 ```
 STDW 10 -8 1  // *(u64 *)(r10 - 8) = 1
               // It means that (r10 - 7) to (r10 - 1) are set as 0, (r10 - 8) is set as 1
