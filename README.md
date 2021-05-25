@@ -8,7 +8,7 @@ We exercise all of K2's main
 software components by showing how to optimize a small, simple
 program. [total estimated time: 1 minute]
 
-2. [Artifact functionality (intermediate):changing program inputs.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
+2. [Artifact functionality (intermediate): changing program inputs.](https://github.com/smartnic/sigcomm21_artifact#2-different-inputs)
 We show how a user might change the input program to K2 to obtain
 different outputs. K2 accepts programs in three formats: BPF C macros
 used by the Linux kernel (file extension .bpf), a home-grown format we
