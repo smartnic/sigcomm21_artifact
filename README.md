@@ -466,29 +466,28 @@ We can see that there are two `goto +0` instructions in the output program. For 
 
 ### Change compiler parameters
 
-There are some parameters for K2. In this experiment, we will introduce window parameters by an example of
-changing different windows for the same input program to be optimized. Window parameters are used to select
-a specific program segment to be optimized, which can reduce the compiling time for a large program. In this
-section, We use `window [s,e]` to represent the program segment from `s` to `e` for convenience.
-More details are in the submitted paper (`IV. Modular verification.` in section 5). 
+There are some parameters for K2. In this experiment, we will introduce window parameters by two examples of
+setting different window parameters for the same input program to be optimized. 
+Window parameters are used to select a specific program segment to be optimized, 
+which can reduce the compiling time for a large program.
+More details are in the submitted paper (`IV. Modular verification.` in section 5).
 
+`Note`: In this section, We use `window [s,e]` to represent the program segment from `s` to `e` 
+for convenience.
 
 #### Run
-Estimated runtime: 1 minute 25 seconds
+Estimated runtime: 40 seconds
 ```
 cd ../../3_change_parameters/
 sh k2.sh benchmark.bpf 0 3 benchmark_win1.bpf.out
-sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
 ```
 
-The first command invokes K2 to optimize window [0,3] for program `benchmark.bpf`, and store the output
-program in `benchmark_win1.bpf.out`, while for the second command, K2 takes the same program `benchmark.bpf` 
-as an input to optimize window [4,5] and stores output program in `benchmark_win2.bpf.out`
+This command invokes K2 to optimize window [0,3] for program `benchmark.bpf`, and store the output
+program in `benchmark_win1.bpf.out`.
 
 
 ##### Result for reference
-For window [0,3], K2 reduces 16 instructions to 14, while for window [4,5], the number of instructions is
-reduced to 15.
+For window [0,3], K2 reduces 16 instructions to 14.
 
 ```
 ...
@@ -498,25 +497,13 @@ top 1 program's performance cost: 14
 ...
 ```
 
-```
-...
-original program's perf cost: 16
-...
-top 1 program's performance cost: 15
-...
-```
-
 Run the following command to see the difference between the input and output programs (window [0,3]).
 
 ```
 diff benchmark.bpf benchmark_win1.bpf.out
 ```
-Run the following command to see the difference between the input and output programs (window [4,5]).
-```
-diff benchmark.bpf benchmark_win2.bpf.out
-```
-We can see that if window is set as [0,3], the first 4 instructions are optimized, while instructions 4
-to 5 are optimized if window is set as [4,5].
+
+We can see that if window is set as [0,3], the first 4 instructions are optimized.
 
 ```
 1,4c1,2
@@ -529,15 +516,8 @@ to 5 are optimized if window is set as [4,5].
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
 ```
 
-```
-5,6c5
-< BPF_MOV64_IMM(BPF_REG_0, 1),
-< BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),
----
-> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
-```
-
 Here are the comments to help understand programs.
+
 ```
 1,4c1,2
 < BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u16 *)(r1 + 0)
@@ -548,6 +528,45 @@ Here are the comments to help understand programs.
 > BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u32 *)(r1 + 0)
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),  // *(u32 *)(r10 - 4) = r0
 ```
+
+
+#### Run
+Estimated runtime: 40 seconds
+```
+sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
+```
+
+For this command, K2 takes the same program `benchmark.bpf` as an input to optimize window [4,5] 
+and stores output program in `benchmark_win2.bpf.out`
+
+
+##### Result for reference
+For window [4,5], the number of instructions is reduced to 15.
+
+```
+...
+original program's perf cost: 16
+...
+top 1 program's performance cost: 15
+...
+```
+
+Run the following command to see the difference between the input and output programs (window [4,5]).
+```
+diff benchmark.bpf benchmark_win2.bpf.out
+```
+We can see that instructions 4 to 5 are optimized if window is set as [4,5].
+
+```
+5,6c5
+< BPF_MOV64_IMM(BPF_REG_0, 1),
+< BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),
+---
+> BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
+```
+
+Here are the comments to help understand programs.
+
 ```
 < BPF_MOV64_IMM(BPF_REG_0, 1),                      // r0 = 1
 < BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -16),  // *(u64 *)(r0 - 16) = r0
