@@ -94,7 +94,7 @@ near-interactively compiled on a reasonably powerful laptop, and we
 provide estimations of how long you might have to wait for each compilation to
 finish.
 
-3. The estimated times for the evaulation of the artifact is based on a machine 
+3. The estimated times for the evaluation of the artifact are based on a machine 
 with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memory.
 
 ---
@@ -321,7 +321,7 @@ K2 reduces 4 instructions to 1 instruction by directly storing an immediate numb
 
 ### 2.2 K2 language (optional)
 
-This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 macro language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
+This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 macro language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in /sigcomm21_artifact/dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
 
 #### Run
 Estimated runtime: 25 seconds.
@@ -363,7 +363,7 @@ Note: `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
 The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
 This function reads key from the stack (in this experiment, key size is set as 2 bytes,
 so key = `*(u16 *)r2`), then looks up this key in the map,
-return the value address (i.e., &map[key]) if the key is in the map,
+returns the value address (i.e., &map[key]) if the key is in the map,
 else returns `NULL` (i.e., 0).
 
 benchmark_before.k2:
