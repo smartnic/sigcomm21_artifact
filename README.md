@@ -75,7 +75,7 @@ reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
 we believe can run fast enough on a user's laptop -- we chose
-benchmarks where the best programs were found within 1 hour in our
+benchmarks where the experiment can finish running within 1 hour in our
 submission. [total estimated time: 120 minutes.]
 
 
@@ -638,7 +638,7 @@ _Completeness_: The source code of the compiler attached in the container (see t
 
 `src/isa/ebpf` contains the formalization of the BPF instruction set in first-order logic, for both program equivalence checking and safety (sections 4, 5, 6)
 
-_Exercisability_: The code needed to run the experiments in the paper is in the folder `3_reproduce_results` in the container image. Detailed instructions to reproduce the results are provided below.
+_Exercisability_: The code needed to run the experiments in the paper is in the folder `4_reproduce_results` in the container image. Detailed instructions to reproduce the results are provided below.
 
 ---
 
