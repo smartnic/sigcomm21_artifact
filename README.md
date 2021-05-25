@@ -638,7 +638,7 @@ _Completeness_: The source code of the compiler attached in the container (see t
 
 `src/isa/ebpf` contains the formalization of the BPF instruction set in first-order logic, for both program equivalence checking and safety (sections 4, 5, 6)
 
-_Exercisability_: The code needed to run the experiments in the paper is in the folder `3_reproduce_results` in the container image.
+_Exercisability_: The code needed to run the experiments in the paper is in the folder `3_reproduce_results` in the container image. Detailed instructions to reproduce the results are provided below.
 
 ---
 
@@ -654,7 +654,7 @@ sh insn_count.sh
 ```
 
 ##### Result for reference
-Note: the result reproduced on your machine may be different to the result from my run
+Note: the result reproduced on your machine may be different to the result from our run
 because of the stochastic search. The keypoint is that `Number of instructions` of K2
 is the same as / similar to the table showing here.
 ```
@@ -706,9 +706,11 @@ sh eq_chk.sh
 
 
 ##### Result for reference
-Note: the result reproduced on your machine may be different to the result from my run,
-the keypoint is that for each benchmark, equivalence-checking time with optimizations
-I,II,III,IV is smaller than that without at least one of optimizations.
+Note: the result reproduced on your machine may be different from the result from our run.
+The key point is that for each benchmark, equivalence-checking time with optimizations
+I,II,III,IV is smaller than that without at least one of optimizations. Here is a sample result
+that we obtained.
+
 ```
 
 +-----------------------------------------------------------------------------------+
@@ -739,3 +741,4 @@ I,II,III,IV is smaller than that without at least one of optimizations.
 
 ---
 
+The End. 
