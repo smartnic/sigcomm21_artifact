@@ -25,16 +25,14 @@ parameters is available
 [total estimated time: 2 minutes.]
 
 4. [Result reproduction]
-  - 4.1 [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#41-improvements-in-program-compactness-from-k2-table-1-in-the-paper)
-: We provide
+  - 4.1 [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#41-improvements-in-program-compactness-from-k2-table-1-in-the-paper): We provide
 scripts to reproduce a subset of results on the reductions in program
 instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
 submission. [total estimated time: 90 minutes.]
-  * 4.2 [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#42-reductions-in-equivalence-checking-time-table-3-in-the-paper)
-: We provide scripts to
+  * 4.2 [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#42-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
