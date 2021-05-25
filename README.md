@@ -456,7 +456,7 @@ K2 reduces 4 intructions to 1 instruction by directly storing an immediate numbe
 
 #### 2.3 BPF object file
 
-K2 also optimizes pre-compiled object files of BPF programs (i.e., \*.o files from the compilier).
+K2 can optimize BPF object files (`.o` files) produced as a result of taking BPF code written in C and compiling with `clang`. The result is another (optimized) object file (`.o`), which can be used as a drop-in replacement for the original file.
 
 ##### Run
 Estimated runtime: 1 minute.
@@ -477,7 +477,7 @@ top 1 program's performance cost: 59
 ```
 Run the following command to see the difference between the input and output programs. The first
 and second commands use `llvm-objdump` to get the disassembly programs from `xdp1_kern.o`and 
-`xdp1_kern.o.out`, then store the programs in the correspoinding files with the extension of .objdump.
+`xdp1_kern.o.out`, then store the programs in the corresponding files with the extension of .objdump.
 ```
 llvm-objdump -d xdp1_kern.o > xdp1_kern.o.objdump
 llvm-objdump -d xdp1_kern.o.out > xdp1_kern.o.out.objdump
@@ -500,18 +500,28 @@ We can see that there are two `goto +0` instructions in the output program. For 
 
 ---
 
-### 3 Change compiler parameters
+### 3 Changing compiler parameters
 
-There are some parameters for K2. In this experiment, we will introduce window parameters by two examples of
-setting different window parameters for the same input program to be optimized. 
-Window parameters are used to select a specific program segment to be optimized, 
-which can reduce the compiling time for a large program.
-More details are in the submitted paper (`IV. Modular verification.` in section 5).
+K2 uses stochastic search to find higher-performance programs that are semantically equivalent to the input.
+The search uses several parameters. (If you wish to take a look, the [full set of available K2
+parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) is available.)
+
+Optimizing smaller regions of the program at a time allows K2 to scale
+to larger program sizes by performing synthesis and verification over smaller programs, 
+and composing the smaller results to form larger results (see more details in section 5, `Modular verification`,
+in our accepted PDF paper.) We call these smaller (contiguous) program regions _windows_.
+There are constraints on the instructions that these windows can contain, documented
+in the Appendix of our paper.
+
+In this experiment, we will show how to set the optimization window parameters 
+for K2. The manual window setting is mainly for illustration: in practice, we auto-detect
+and set these program windows. Specifically, we show explicit settings of two different window 
+parameters for the same input program. 
 
 `Note`: In this section, We use `window [s,e]` to represent the program segment from `s` to `e` 
 for convenience.
 
-#### Run
+#### Run one window: window of instructions 0--3
 Estimated runtime: 40 seconds
 ```
 cd ../../3_change_parameters/
@@ -523,7 +533,7 @@ program in `benchmark_win1.bpf.out`.
 
 
 ##### Result for reference
-For window [0,3], K2 reduces 16 instructions to 14.
+For window [0,3], in our run, K2 reduces 16 instructions to 14.
 
 ```
 ...
@@ -552,7 +562,7 @@ We can see that if window is set as [0,3], the first 4 instructions are optimize
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
 ```
 
-Here are the comments to help understand programs.
+Here are some comments to help understand the program.
 
 ```
 1,4c1,2
@@ -601,7 +611,7 @@ We can see that instructions 4 to 5 are optimized if window is set as [4,5].
 > BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
 ```
 
-Here are the comments to help understand programs.
+Here are some comments to help understand the programs.
 
 ```
 < BPF_MOV64_IMM(BPF_REG_0, 1),                      // r0 = 1
@@ -610,9 +620,13 @@ Here are the comments to help understand programs.
 > BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),           // *(u64 *)(r0 - 16) = 1
 ```
 
+If you take a look at [the full command line](https://github.com/smartnic/sigcomm21_artifact/blob/master/3_change_parameters/k2.sh#L38) that is used to invoke the compiler in this exercise, you may see that the window settings are incorporated using the flags `--win_s_list` and `--win_e_list`. 
+
 ---
 
 ### 4 Specific ACM SIGCOMM criteria for artifact functionality
+
+_Documentation_: Our artifact includes the Docker container used to perform these experiments, the source code of the compiler and subsidiary repositories (including experimental scripts).
 
 FIXME
 
