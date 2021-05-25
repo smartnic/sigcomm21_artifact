@@ -119,7 +119,7 @@ MOV64XC 0 2
 EXIT
 ```
 
-Here are the comments to help understaned prorgams.
+Here are the comments to help understaned programs.
 
 benchmark.k2
 
@@ -182,7 +182,7 @@ We can see that 2 two-byte load-and-store operations are optimized to 1 four-byt
 > BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
 ```
 
-Here are the comments to help understand prorgams.
+Here are the comments to help understand programs.
 
 Note: 
 1. `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
@@ -319,7 +319,7 @@ We can see that two one-byte load-and-store operations are optimized to one two-
 > STXH 10 -2 0
 ```
 
-Here are the comments to help understand prorgams.
+Here are the comments to help understand programs.
 
 Note: `call map_lookup_elem` calls funtion `r0 = map_lookup_elem(map, &key)`.
 The first parameter `map` is read from `r1`, the second `&key` is read from `r2`.
@@ -537,7 +537,7 @@ to 5 are optimized if window is set as [4,5].
 > BPF_ST_MEM(BPF_DW, BPF_REG_10, -16, 1),
 ```
 
-Here are the comments to help understand prorgams.
+Here are the comments to help understand programs.
 ```
 1,4c1,2
 < BPF_LDX_MEM(BPF_H, BPF_REG_0, BPF_REG_1, 0),    // r0 = *(u16 *)(r1 + 0)
