@@ -51,7 +51,7 @@ developed that we call this the [K2 macro language](https://github.com/smartnic/
 optimized versions of the programs in the same format that is
 consumed. [total estimated machine time: 4 minutes; human time: 15 minutes]
 
-3. [Changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
+3. [Changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-changing-compiler-parameters)
 We show how a user might modify the parameters fed to K2 by modifying
 the K2 command line in our scripts. The [full set of available K2
 parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) is available.
