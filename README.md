@@ -35,7 +35,7 @@ K2 can pass the kernel checker.
 ## Claims to validate
 We provide instructions to help validate the following claims about the paper. 
 
-*Artifact availability. (section 0).* The source code of the K2 compiler and all subsidiary repositories and evaluation scripts are publicly available at https://github.com/smartnic/ We also make a [Docker container](https://github.com/smartnic/sigcomm21_artifact##0-instructions-to-run-the-artifact) available for anyone who wishes to quickly run the compiler and reproduce smaller results. The `install.sh` script in this repository provides instructions to download all the required components if one is building a container image from scratch.
+*Artifact availability. (section 0).* The source code of the K2 compiler and all subsidiary repositories and evaluation scripts are publicly available at https://github.com/smartnic/ We also make a [Docker container](https://github.com/smartnic/sigcomm21_artifact#0-instructions-to-run-the-artifact) available for anyone who wishes to quickly run the compiler and reproduce smaller results. The `install.sh` script in this repository provides instructions to download all the required components if one is building a container image from scratch.
 
 *Artifact functionality (sections 1 through 4).* We show how to exercise the compiler through different inputs, input formats, and parameters. 
 
@@ -53,9 +53,8 @@ consumed. [total estimated time: 4 minutes]
 
 3. [Changing compiler parameters.](https://github.com/smartnic/sigcomm21_artifact#3-change-compiler-parameters)
 We show how a user might modify the parameters fed to K2 by modifying
-the K2 command line in our scripts. The full set of available K2
-parameters is available 
-[here](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) 
+the K2 command line in our scripts. The [full set of available K2
+parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) is available.
 [total estimated time: 2 minutes.]
 
 4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
@@ -71,7 +70,7 @@ that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
 submission. [total estimated time: 90 minutes.]
 
-6. [Impact of optimizations](https://github.com/smartnic/sigcomm21_artifact#6-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
+6. [Impact of optimizations on equivalence-checking time](https://github.com/smartnic/sigcomm21_artifact#6-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
