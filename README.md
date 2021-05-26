@@ -80,13 +80,13 @@ in equivalence-checking time. However, the subset of (faster) benchmarks in the 
 may only show about 4 orders of magnitude of benefit (10,000X or more).
 [total estimated time: 120 minutes.]
 
-7. [Latency/throughput benefits](https://github.com/smartnic/sigcomm21_artifact#7-latencythroughput-benefits): 
+7. [Latency/throughput benefits](#7-latencythroughput-benefits-table-2-in-the-submitted-paper): 
 We provide scripts to reproduce a subset
 of results from our empirical evaluation of throughput and latency of
 programs optimized by K2 (table 2 in the submitted paper). This requires
-[setting up an experiment on CloudLab](https://github.com/smartnic/sigcomm21_artifact#cloudlab-experiment-setup) 
+[setting up an experiment on the NSF CloudLab testbed](#72-cloudlab-experiment-setup) 
 using the credentials and disk
-images that we provided. *This experiment takes a while to run* -- however,
+images that we provide. *This experiment takes a while to run* -- however,
 it runs on a server-class machine that you log into, and once
 the longer experiments start, they require your attention only after a few
 hours.  Our paper submission claims that the best programs produced by K2
@@ -94,14 +94,14 @@ produce -0.03--5% higher throughput and 13--85 microseconds of lower
 latency than the most optimized versions produced by Clang. Due to the
 slightly different nature of the experimental setup between the paper submission and the
 replication (i.e., this document), the exact numbers you will see will differ from
-those in Table 2 in the submission. See our [caveat](#An-important-caveat-about-latency-and-throughput-numbers-from-this-experiment)
+those in Table 2 in the submission. See our [caveat](#71-an-important-caveat-about-latency-and-throughput-numbers-from-this-experiment)
 for more details. Instead of validating the exact improvements, the main claim to validate is 
 that there is a reduction in tail latency (i.e., the latency at the MLFFR, see
 section 8 in the submitted paper) with similar or better throughput
 (i.e., the MLFFR).  [total estimated machine time: 15
 hours; human time: 40 minutes]
 
-8. [Efficacy of safety checks](https://github.com/smartnic/sigcomm21_artifact#8-efficacy-of-safety-checks-table-7-in-the-submitted-paper-appendix): We provide scripts to reproduce the results on checking the safety of K2-produced programs
+8. [Efficacy of safety checks](#8-efficacy-of-safety-checks-table-7-in-the-submitted-paper-appendix): We provide scripts to reproduce the results on checking the safety of K2-produced programs
 using the kernel checker (table 7 in the submitted paper appendix). 
 We test whether K2 programs can pass the kernel checker by _loading_ each
 BPF program into the kernel. If the load succeeds, it means that the program
@@ -135,7 +135,7 @@ Docker
 container.](https://github.com/smartnic/sigcomm21_artifact#0-instructions-to-run-the-artifact)
 Experiments 7 and 8 can be run in either order once you've [set up the
 CloudLab
-experiment.](https://github.com/smartnic/sigcomm21_artifact#cloudlab-experiment-setup)
+experiment.](#72-cloudlab-experiment-setup)
 
 ---
 
@@ -784,15 +784,15 @@ that we obtained.
 ## 7 Latency/Throughput Benefits (Table 2 in the submitted paper)
 This section describes how to validate the experimental claim about latency/throughput improvements in code produced by K2. _This experiment takes the longest time to run among all our experiments._ (total estimated machine time: 15 hours, human time: 40 minutes). The high-level steps are as follows.
 
-1) [Set up an experiment on the NSF CloudLab testbed](#CloudLab-Experiment-Setup) using credentials that we provided on hotCRP. 
-2) Measure the latency-throughput profile of one benchmark which varies the offered load (Tx rate) and measures the corresponding processing rate (Rx rate), packet drop rate, and the round-trip latency of the packets that were successfully processed without drop. The experiment graphs these quantities as a function of the offered load. We will describe how to obtain the throughput (MLFFR) and the tail latency (latency at the MLFFR) of the benchmark from the corresponding curve.
-3) Run a long-lived experiment that runs multiple benchmarks under different offered loads (Tx rate) and draws similar curves.
+1) [Set up an experiment on the NSF CloudLab testbed](#72-cloudlab-experiment-setup) using credentials that we provided on hotCRP. 
+2) [Measure the latency-throughput profile of one benchmark]() by varying the offered load and measuring the benchmark program's packet-processing rate, packet drop rate, and the round-trip latency of the packets that were successfully processed without dropping. The experiment graphs these quantities as a function of the offered load. We will describe how to obtain the throughput (MLFFR) and the tail latency (latency at the MLFFR) of the benchmark from the corresponding curve.
+3) [Run a long-lived experiment covering multiple benchmarks](#74-obtain-all-latency-throughput-curves) to obtain similar curves for all variants of benchmark programs. 
 
 ### 7.1 An important caveat about latency and throughput numbers from this experiment
 We are using a different setup from the one used in the paper submission for replicating this experiment. We are using a machine with an Intel architecture (cloudlab instance `xl170`) rather than an AMD architecture (cloudlab instance `d6515`). This change occurred due to two reasons.
 (1) We consistently found it hard to obtain `d6515` machines on CloudLab, due to conflicting reservations from other users. There are just more instances of `xl170` available.
 (2) We found results from the Intel architecture more repeatable and reliable, with the benefits of additional performance-enhancing features that we plan to use for the final numbers in the camera-ready version of our paper.
-For these reasons, the throughput and latency numbers won't exactly match the paper as of the submission. Instead, the main claim we wish to validate is that: relative to the best version produced by `clang`, code produced by K2 has (1) similar or better throughput (MLFFR), and (2) much lower tail latency (latency at the MLFFR).
+For these reasons, the throughput and latency numbers won't exactly match those in Table 2 in the paper submission. Instead, the main claim we wish to validate is that: relative to the best version produced by `clang`, code produced by K2 has (1) similar or better throughput (MLFFR), and (2) lower tail latency (i.e., the latency at the MLFFR).
 
 ### 7.2 CloudLab Experiment Setup 
 
