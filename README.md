@@ -24,11 +24,9 @@ We present K2, a program-synthesis-based compiler that automatically
 optimizes BPF bytecode with formal correctness and safety guarantees.
 K2 leverages stochastic search, a formalization of BPF in first-order
 logic, and several domain-specific techniques to accelerate equivalence checking
-of BPF programs. K2 produces code with 6--26% reduced size, reduces
-average latency by 13--85 microseconds in our setup,
-and improves the number of packets per second
-processed per core by up to 5% relative to `clang -O3`,
-across programs drawn from
+of BPF programs. Relative to `clang -O3`, K2 produces code with 6--26% reduced size, 
+13--85 microseconds lower latency, and -0.03--5% higher throughput 
+(packets per second per core), across programs drawn from
 production systems at Cilium and the Linux kernel. BPF programs produced by
 K2 can pass the kernel checker.
 
@@ -89,33 +87,34 @@ programs optimized by K2 (table 2 in the submitted paper). This requires
 [setting up an experiment on CloudLab](https://github.com/smartnic/sigcomm21_artifact#cloudlab-experiment-setup) 
 using the credentials and disk
 images that we provided. *This experiment takes a while to run* -- however,
-it runs on a server-class machine that you will be set up to run on. Once
+it runs on a server-class machine that you log into, and once
 the longer experiments start, they require your attention only after a few
 hours.  
 
 Our paper submission claims that the best programs produced by K2
 produce -0.03--5% higher throughput and 13--85 microseconds of lower
 latency than the most optimized versions produced by Clang. Due to the
-slightly different setup between the paper submission and the
-replication setup, the exact numbers you will see will differ from
-those in Table 2 in the submission.  However, our main claim about the
-reduction in tail latencies (i.e., the latency at the MLFFR, see
+slightly different nature of the experimental setup between the paper submission and the
+replication (i.e., this document), the exact numbers you will see will differ from
+those in Table 2 in the submission.  The main claim to validate is 
+that there is a reduction in tail latency (i.e., the latency at the MLFFR, see
 section 8 in the submitted paper) with similar or better throughput
-(i.e., the MLFFR) still holds.  [total estimated machine time: 15
+(i.e., the MLFFR).  [total estimated machine time: 15
 hours; human time: 40 minutes]
 
-8. [Efficacy of safety checks](https://github.com/smartnic/sigcomm21_artifact#8-efficacy-of-safety-checks-table-7-in-the-submitted-paper-appendix): We provide scripts to reproduce the safety check result of optimized
-programs K2 produced (table 7 in the submitted paper appendix). We
-achieve this by checking whether the optimized programs can be loaded
-in the kernel or not. If so, it means that the program can pass the
-kernel verifier. The result shows that 35 among 38 programs can pass the 
-kernel verifier.
+8. [Efficacy of safety checks](https://github.com/smartnic/sigcomm21_artifact#8-efficacy-of-safety-checks-table-7-in-the-submitted-paper-appendix): We provide scripts to reproduce the results on checking the safety of K2-produced programs
+using the kernel checker (table 7 in the submitted paper appendix). 
+We test whether K2 programs can pass the kernel checker by _loading_ each
+BPF program into the kernel. If the load succeeds, it means that the program
+can pass the kernel checker. The result shows that 35 among 38 programs can pass 
+the kernel checker.
 [total estimated machine time: 2 minutes 30 seconds; human time: 5 minutes.]
 
 ## Notes and caveats
 1. The results shown below can only be used for reference.
 Since K2 leverages stochastic search, we cannot guarantee that the results
-are exactly the same for every run.  We have observed that small programs
+are exactly the same for every run. Further, experimentation on throughput
+and latency can show variations from run to run. We have observed that small programs
 often exhibit deterministic behavior.
 
 2. K2 is a synthesizing compiler that optimizes BPF programs better than
@@ -127,9 +126,17 @@ near-interactively compiled on a reasonably powerful laptop, and we
 provide estimations of how long you might have to wait for each compilation to
 finish.
 
-3. The estimated times for the evaluation of the artifact in the docker container
+3. The estimated times for the evaluations running in the Docker container
 are based on a machine with 3.1 GHz Dual-Core Intel Core i7 processor, 
-16 GB 1867 MHz DDR3 memory.
+16 GB 1867 MHz DDR3 memory. We have tested the container on a few different laptops,
+and expect the experiments to run without too much trouble on a relatively modern laptop.
+
+4. Experiments 1--6 can be run in any order once you've [set up the
+Docker
+container.](https://github.com/smartnic/sigcomm21_artifact#0-instructions-to-run-the-artifact)
+Experiments 7 and 8 can be run in either order once you've [set up the
+CloudLab
+experiment.](https://github.com/smartnic/sigcomm21_artifact#cloudlab-experiment-setup)
 
 ---
 
