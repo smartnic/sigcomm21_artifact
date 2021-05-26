@@ -942,7 +942,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 [Total estimated machine time: 14 hours]
 
 #### Run three trials of a benchmark that FORWARDS PACKETS back to the traffic generator
-[Estimated Run time: 8 hours]
+[Estimated machine run time: 8 hours; human time: 10 minutes]
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr.py -b xdp_fwd -d xdp_fwd_all -n 3 -c 6 > $HOME/xdp_fwd_log.txt &`. This proccess will run in the background; therefore, press enter. 
@@ -955,10 +955,10 @@ The results are the average of three trials. You may see graphs that look like t
 
 <img src="instruction-images/avg.png" width="400px" /> <img src="instruction-images/avg-latency-xdpfwd.png" width="400px" />
 
-(If needed, see [how to interpret throughput-latency graphs](#interpreting-the-graphs) for a refresher on understanding one curve from this graph.) From the graphs above, we would write down the MLFFR throughput of the `-O1` variant of `xdp_fwd` as 4.9 Mpps. With the resolution available in the Tx rates on the x-axis, the MLFFR of the other variants (`-O2` and all the variants produced by K2, labeled `kX`) is also roughly 4.9 Mpps. The latency at the MLLFR of the best clang variant is ~57 microseconds (for `-O2`) and that of the best K2 variant is ~50 microseconds.
+(If needed, see [how to interpret throughput-latency graphs](#interpreting-the-graphs) for a refresher on understanding one curve from this graph.) From the graphs above, we would write down the MLFFR throughput of the `-O1` variant of `xdp_fwd` as 4.9 Mpps. With the resolution available in the Tx rates on the x-axis, the MLFFR of the other variants (`-O2` and all the variants produced by K2, labeled `kX`) is also roughly 4.9 Mpps. The latency at the MLLFR of the best clang variant is ~57 microseconds (for `-O2`) and that of the best K2 variant (for `k2`) is ~50 microseconds.
 
 #### Run three trials of a benchmark that DROP ALL PACKETS
-[Estimated Run Time: 6 hours]
+[Estimated machine run Time: 6 hours, human time: 10 minutes]
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr_user.py -b xdp_map_access -d xdp_map_all -n 3 -c 6 > $HOME/map_all.txt &`. This proccess will run in the background; therefore, press enter. 
