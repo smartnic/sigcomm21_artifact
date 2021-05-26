@@ -82,7 +82,8 @@ in equivalence-checking time. However, the subset of (faster) benchmarks in the 
 may only show about 4 orders of magnitude of benefit (10,000X or more).
 [total estimated time: 120 minutes.]
 
-7. [Latency/throughput benefits](): We provide scripts to reproduce a subset
+7. [Latency/throughput benefits](https://github.com/smartnic/sigcomm21_artifact#7-latencythroughput-benefits): 
+We provide scripts to reproduce a subset
 of results from our empirical evaluation of throughput and latency of
 programs optimized by K2 (table 2 in the submitted paper). This requires
 [setting up an experiment on CloudLab]() using the credentials and disk
@@ -101,6 +102,14 @@ reduction in tail latencies (i.e., the latency at the MLFFR, see
 section 8 in the submitted paper) with similar or better throughput
 (i.e., the MLFFR) still holds.  [total estimated machine time: 15
 hours; human time: 40 minutes]
+
+8. [Efficacy of safety checks](https://github.com/smartnic/sigcomm21_artifact#8-efficacy-of-safety-checks-table-7-in-the-submitted-paper-appendix): We provide scripts to reproduce the safety check result of optimized
+programs K2 produced (table 7 in the submitted paper appendix). We
+achieve this by checking whether the optimized programs can be loaded
+in the kernel or not. If so, it means that the program can pass the
+kernel verifier. The result shows that 35 among 38 programs can pass the 
+kernel verifier.
+[total estimated machine time: 2 minutes 30 seconds; human time: 5 minutes.]
 
 ## Notes and caveats
 1. The results shown below can only be used for reference.
