@@ -950,7 +950,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 5) Once it has completed running (it will say *Completed Full Script* in the logs), you will now generate the graphs.
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput and latency graphs: `python3 generate_graphs.py -d xdp_fwd_all -b xdp_fwd -r 3`
-6) The latency graph is located in `~/xdp_fwd_all/avgL/avg.csv` and the throughput graph is located in `~/xdp_fwd_all/rx/avg.csv`.
+6) The latency graph is located in `~/xdp_fwd_all/avgL/avg.png` and the throughput graph is located in `~/xdp_fwd_all/rx/avg.png`.
 
 The results are the average of three trials. The raw data is located in `~/xdp_fwd_all/avgL-data.csv` and `~/xdp_fwd_all/rx-data.csv`. You may see graphs that look like this:
 
