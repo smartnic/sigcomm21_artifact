@@ -60,7 +60,7 @@ parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) i
 4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
 This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated (human) time: 2 minutes]
 
-*Reproduction of results (sections 5 and 6).* We show how to reproduce the main claims in the empirical evaluation of the paper.
+*Reproduction of results (sections 5 through 7).* We show how to reproduce the main claims in the empirical evaluation of the paper.
 
 5. [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#5-improvements-in-program-compactness-from-k2-table-1-in-the-paper): We provide
 scripts to reproduce a subset of results on the reductions in program
@@ -68,7 +68,8 @@ instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
 that we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the best programs were found within 30 minutes in our
-submission. [total estimated time: 90 minutes.]
+submission. Our paper submission claims program compaction anywhere between
+6 -- 26%. [total estimated time: 90 minutes.]
 
 6. [Impact of optimizations on equivalence-checking time](https://github.com/smartnic/sigcomm21_artifact#6-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
 reproduce a subset of results on the impact of optimizations on
@@ -76,8 +77,30 @@ reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
 we believe can run fast enough on a user's laptop -- we chose
 benchmarks where the experiment can finish running within 1 hour in our
-submission. [total estimated time: 120 minutes.]
+submission. Our paper submission claims an average 5 orders of magnitude reduction
+in equivalence-checking time. However, the subset of (faster) benchmarks in the container
+may only show about 4 orders of magnitude of benefit (10,000X or more).
+[total estimated time: 120 minutes.]
 
+7. [Latency/throughput benefits](): We provide scripts to reproduce a subset
+of results from our empirical evaluation of throughput and latency of
+programs optimized by K2 (table 2 in the submitted paper). This requires
+[setting up an experiment on CloudLab]() using the credentials and disk
+images that we provided. *This experiment takes a while to run* -- however,
+it runs on a server-class machine that you will be set up to run on. Once
+the longer experiments start, they require your attention only after a few
+hours.  
+
+Our paper submission claims that the best programs produced by K2
+produce -0.03--5% higher throughput and 13--85 microseconds of lower
+latency than the most optimized versions produced by Clang. Due to the
+slightly different setup between the paper submission and the
+replication setup, the exact numbers you will see will differ from
+those in Table 2 in the submission.  However, our main claim about the
+reduction in tail latencies (i.e., the latency at the MLFFR, see
+section 8 in the submitted paper) with similar or better throughput
+(i.e., the MLFFR) still holds.  [total estimated machine time: 15
+hours; human time: 40 minutes]
 
 ## Notes and caveats
 1. The results shown below can only be used for reference.
