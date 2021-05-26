@@ -155,8 +155,8 @@ cd sigcomm21_artifact
 ---
 ## 1 Hello World
 In this experiment, we get started with a Hello World program to show the basic functionality of K2.
-The compiler takes an input program `benchmark.k2` written in the K2 language, optimizes this program and produces an output
-program `benchmark.k2.out` in the K2 language.
+The compiler takes an input program `benchmark.k2` written in the K2 language, optimizes this program,
+and produces an output program `benchmark.k2.out` in the K2 language.
 
 ### Run
 Estimated runtime: 20 seconds.
@@ -269,7 +269,7 @@ BPF_JMP_IMM(BPF_JEQ, BPF_REG_0, 0, 1),          // if r0 == 0, jmp 1 (exit)
 BPF_MOV64_IMM(BPF_REG_0, 1),                    // r0 = 1
 BPF_EXIT_INSN(),                                // exit, return r0
 ```
-benchmark_before.bpf.out (the first two intructions)
+benchmark_before.bpf.out (the first two instructions)
 ```
 BPF_LDX_MEM(BPF_W, BPF_REG_0, BPF_REG_1, 0),   // r0 = *(u32 *)(r1 + 0)
 BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4), // *(u32 *)(r10 - 4) = r0
@@ -483,7 +483,7 @@ STDW 10 -8 1  // *(u64 *)(r10 - 8) = 1
               // It means that (r10 - 7) to (r10 - 1) are set as 0, (r10 - 8) is set as 1
               // In your run, the immediate number could be others because of the stochastic search
 ```
-K2 reduces 4 intructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
+K2 reduces 4 instructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
 
 ---
 
@@ -688,8 +688,8 @@ sh insn_count.sh
 
 #### Result for reference
 Note: the result reproduced on your machine may be different to the result from our run
-because of the stochastic search. The keypoint is that `Number of instructions` of K2
-is the same as / similar to the table showing here.
+because of the stochastic search. The key point is that `Number of instructions` of K2
+is the same as/similar to the table showing here.
 ```
 +----------------------------------------------------+
 |               Number of instructions               |
@@ -741,7 +741,7 @@ sh eq_chk.sh
 #### Result for reference
 Note: the result reproduced on your machine may be different from the result from our run.
 The key point is that for each benchmark, equivalence-checking time with optimizations
-I,II,III,IV is smaller than that without at least one of optimizations. Here is a sample result
+I,II,III,IV is smaller than that without at least one optimizations. Here is a sample result
 that we obtained.
 
 ```
@@ -812,7 +812,7 @@ The default/initial duration for which an experiment may run (i.e., the time tha
 
 *You may encounter the following failures/slow cases:*
 
-Sometimes, starting an experiment can fail when CloudLab has insufficient resources available. If your experiment fails due to insufficient resources, you can check for future resource availability at https://www.cloudlab.us/resinfo.php -- look for future availability of machine instances of type "xl170" in the Utah cluster. You need at least 2 available machines for our experiment. You can also make reservations for machines at a future time by following instructions from http://docs.cloudlab.us/reservations.html. Please contact us if you have any difficulty.
+Sometimes, starting an experiment can fail when CloudLab has insufficient resources available. If your experiment fails due to insufficient resources, you can check for future resource availability at https://www.cloudlab.us/resinfo.php -- look for the future availability of machine instances of type "xl170" in the Utah cluster. You need at least 2 available machines for our experiment. You can also make reservations for machines at a future time by following instructions from http://docs.cloudlab.us/reservations.html. Please contact us if you have any difficulty.
 
 If your experiment is successfully scheduled, it might still keep you waiting with the message `Please wait while we get your experiments ready`. This can happen sometimes since we use a custom disk image. Please be patient for a few minutes. 
 
@@ -908,7 +908,7 @@ Sample graphs that you obtain may look like the following:
 ### Warmup 2: Run one trial of a benchmark that DROPS ALL PACKETS.
 [Estimated Machine Run Time: 30 minutes; human time: 1 minute]
 
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replace with node1 in your experiment.
+1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr_user.py -b xdp_map_access -v o1 -d xdp_map -n 1 -c 6 > $HOME/map.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/map.txt`
@@ -925,7 +925,7 @@ where hp024 is node-0
 
 ### Exercise 3: Run all versions of a benchmark (that DOES NOT drop packets) three times each. 
 Estimated Run time: 8 hours 
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replace with node1 in your experiment.
+1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr.py -b xdp_fwd -d xdp_fwd_all -n 3 -c 6 > $HOME/xdp_fwd_log.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/xdp_fwd_log.txt`
@@ -935,7 +935,7 @@ Estimated Run time: 8 hours
 
 ### Exercise 4: Run all versions of a benchmark (that DOES drop packets) three times each. 
 Estimated Run Time: 6 hours 
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replace with node1 in your experiment.
+1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr_user.py -b xdp_map_access -d xdp_map_all -n 3 -c 6 > $HOME/map_all.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/map_all.txt`
@@ -949,7 +949,7 @@ Estimated Run Time: 6 hours
 
 This section evaluates whether the programs optimized by K2 can pass the kernel verifier. We check this by
 loading the programs in the kernel. If the program can be successfully loaded, it means this program passes
-the kernel verifier. Otherwise, we will receive the error information from kernel. Since it takes long time 
+the kernel verifier. Otherwise, we will receive the error information from kernel. Since it takes a long time 
 (more than 12 hours) for K2 to optimize all benchmarks in the table, we directly use the optimized programs 
 produced by K2 from the [log](https://github.com/smartnic/throughput-experiments/tree/main/completed-programs) 
 that were produced when we submitted the manuscript.
