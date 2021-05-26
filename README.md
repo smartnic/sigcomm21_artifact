@@ -891,7 +891,7 @@ Now that the experiment is fully set up, we can stress test the DUT with traffic
 
 Note: All data and logs, graphs are saved in your home directory on Cloudlab. The CloudLab server images don't come with GUIs, so in order to view graphs, you will need to copy the file to local computer. Instructions are provided below.
 
-#### Warmup 1: Run one trial of benchmark that FORWARDS PACKETS BACK to the traffic generator. 
+#### Warmup 1: Run one trial of a benchmark that FORWARDS PACKETS BACK to the traffic generator. 
 [Estimated Machine Run Time: 30 minutes; human time: 1 minute]
 
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is the private SSH key on your local computer and `hp125.utah.cloudlab.us` is replaced with the name of the `node-1` machine in your experiment.
@@ -941,7 +941,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 ### 7.4 Obtain all latency-throughput curves
 [Total estimated machine time: 14 hours]
 
-#### Run three trials of all benchmarks that FORWARD PACKETS back to the traffic generator
+#### Run three trials of a benchmark that FORWARDS PACKETS back to the traffic generator
 [Estimated Run time: 8 hours]
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
@@ -951,7 +951,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput, drop rate, and latency graphs: `python3 generate_graphs.py -d xdp_fwd_all -b xdp_fwd -r 3`
 
-#### Run three trials of all benchmarks that DROP PACKETS
+#### Run three trials of a benchmark that DROP ALL PACKETS
 [Estimated Run Time: 6 hours]
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replaced with node1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
