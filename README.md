@@ -785,7 +785,7 @@ that we obtained.
 This section describes how to validate the experimental claim about latency/throughput improvements in code produced by K2. _This experiment takes the longest time to run among all our experiments._ (total estimated machine time: 15 hours, human time: 40 minutes). The high-level steps are as follows.
 
 1) [Set up an experiment on the NSF CloudLab testbed](#72-cloudlab-experiment-setup) using credentials that we provided on hotCRP. 
-2) [Measure the latency-throughput profile of one benchmark]() by varying the offered load and measuring the benchmark program's packet-processing rate, packet drop rate, and the round-trip latency of the packets that were successfully processed without dropping. The experiment graphs these quantities as a function of the offered load. We will describe how to obtain the throughput (MLFFR) and the tail latency (latency at the MLFFR) of the benchmark from the corresponding curve.
+2) [Measure the latency-throughput profile of one benchmark](#73-measure-and-interpret-one-benchmark-program) by varying the offered load and measuring the benchmark program's packet-processing rate, packet drop rate, and the round-trip latency of the packets that were successfully processed without dropping. The experiment graphs these quantities as a function of the offered load. We will describe how to obtain the throughput (MLFFR) and the tail latency (latency at the MLFFR) of the benchmark from the corresponding curve.
 3) [Run a long-lived experiment covering multiple benchmarks](#74-obtain-all-latency-throughput-curves) to obtain similar curves for all variants of benchmark programs. 
 
 ### 7.1 An important caveat about latency and throughput numbers from this experiment
