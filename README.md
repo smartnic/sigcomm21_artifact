@@ -60,7 +60,7 @@ This section explicitly addresses the three criteria for artifact functionality 
 
 *Reproduction of results (sections 5 through 7).* We show how to reproduce the main claims in the empirical evaluation of the paper.
 
-5. [Instruction count reduction](https://github.com/smartnic/sigcomm21_artifact#5-improvements-in-program-compactness-from-k2-table-1-in-the-paper): We provide
+5. [Instruction count reduction](#5-improvements-in-program-compactness-from-k2-table-1-in-the-submitted-paper): We provide
 scripts to reproduce a subset of results on the reductions in program
 instruction counts that K2 can obtain (table 1 in the submitted
 paper). The subset of benchmarks chosen corresponds to those programs
@@ -69,7 +69,7 @@ benchmarks where the best programs were found within 30 minutes in our
 submission. Our paper submission claims program compaction anywhere between
 6 -- 26%. [total estimated time: 90 minutes.]
 
-6. [Impact of optimizations on equivalence-checking time](https://github.com/smartnic/sigcomm21_artifact#6-reductions-in-equivalence-checking-time-table-3-in-the-paper): We provide scripts to
+6. [Impact of optimizations on equivalence-checking time](#6-reductions-in-equivalence-checking-time-table-3-in-the-submitted-paper): We provide scripts to
 reproduce a subset of results on the impact of optimizations on
 reductions in equivalence-checking time (table 3 in the submitted paper).
 The subset of benchmarks chosen corresponds to those programs that 
@@ -781,7 +781,7 @@ that we obtained.
 
 ---
 
-## 7 Latency/Throughput Benefits
+## 7 Latency/Throughput Benefits (Table 2 in the submitted paper)
 This section describes how to validate the experimental claim about latency/throughput improvements in code produced by K2. _This experiment takes the longest time to run among all our experiments._ (total estimated machine time: 15 hours, human time: 40 minutes). The high-level steps are as follows.
 
 1) [Set up an experiment on the NSF CloudLab testbed](#CloudLab-Experiment-Setup) using credentials that we provided on hotCRP. 
