@@ -961,7 +961,7 @@ Note: There is a typo in Table 7 in the submitted paper. K2 produced 3 unique pr
 
 Estimated runtime: 2 minutes 30 seconds
 
-SSH into Node-0: suppose currently you are on the node-0 machine
+SSH into Node-0: suppose currently you are on the node-1 machine
 ```
 ssh -p 22 reviewer@hp124.utah.cloudlab.us
 ```
