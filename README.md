@@ -967,6 +967,8 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 
 ## 8 Efficacy of safety checks (Table 7 in the submitted paper appendix)
 
+_Note: this experiment runs on the NSF cloudlab testbed. If you haven't finished [setting up the CloudLab experiment](#72-cloudlab-experiment-setup), please do that first._
+
 This section evaluates whether the programs optimized by K2 can pass the kernel checker. We test this by
 `loading` the BPF programs into the kernel. If the program can be successfully loaded, it means this program passes
 the kernel checker. Otherwise, we will receive an error from the kernel checker. Since it takes a long time 
