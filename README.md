@@ -33,11 +33,11 @@ K2 can pass the kernel checker.
 ## Claims to validate
 We provide instructions to help validate the following claims about the paper. 
 
-*Artifact availability. (section 0).* The source code of the K2 compiler and all subsidiary repositories and evaluation scripts are publicly available at https://github.com/smartnic/ We also make a [Docker container](https://github.com/smartnic/sigcomm21_artifact#0-instructions-to-run-the-artifact) available for anyone who wishes to quickly run the compiler and reproduce smaller results. The `install.sh` script in this repository provides instructions to download all the required components if one is building a container image from scratch.
+*Artifact availability. (section 0).* Our compiler and all its peripheral code in subsidiary repositories have been made publicly available. The source code of the K2 compiler and supporting software (including evaluation scripts) are publicly available under https://github.com/smartnic/ Further, for easy experimentation, we provide a [Docker container](https://github.com/smartnic/sigcomm21_artifact#0-instructions-to-run-the-artifact). The `install.sh` script in this repository provides instructions to download all the required components if one is building a container image from scratch. Many of the experiments in this repository use the Docker container.
 
-*Artifact functionality (sections 1 through 4).* We show how to exercise the compiler through different inputs, input formats, and parameters. 
+*Artifact functionality (sections 1 through 4).* We show that the compiler can be exercised with different inputs, input formats, and compiler parameters. 
 
-1. [Hello world](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
+1. [Hello world.](https://github.com/smartnic/sigcomm21_artifact#1-hello-world)
 This task exercises all of K2's main software components by showing how to optimize a small, simple program. [total estimated machine time: 1 minute; human time: 5 minutes]
 
 2. [Changing the input program.](https://github.com/smartnic/sigcomm21_artifact#2-Changing-the-input-program)
@@ -94,7 +94,8 @@ produce -0.03--5% higher throughput and 13--85 microseconds of lower
 latency than the most optimized versions produced by Clang. Due to the
 slightly different nature of the experimental setup between the paper submission and the
 replication (i.e., this document), the exact numbers you will see will differ from
-those in Table 2 in the submission.  The main claim to validate is 
+those in Table 2 in the submission. See our [caveat](#An-important-caveat-about-latency-and-throughput-numbers-from-this-experiment)
+for more details. Instead of validating the exact improvements, the main claim to validate is 
 that there is a reduction in tail latency (i.e., the latency at the MLFFR, see
 section 8 in the submitted paper) with similar or better throughput
 (i.e., the MLFFR).  [total estimated machine time: 15
@@ -787,13 +788,13 @@ This section describes how to validate the experimental claim about latency/thro
 2) Measure the latency-throughput profile of one benchmark which varies the offered load (Tx rate) and measures the corresponding processing rate (Rx rate), packet drop rate, and the round-trip latency of the packets that were successfully processed without drop. The experiment graphs these quantities as a function of the offered load. We will describe how to obtain the throughput (MLFFR) and the tail latency (latency at the MLFFR) of the benchmark from the corresponding curve.
 3) Run a long-lived experiment that runs multiple benchmarks under different offered loads (Tx rate) and draws similar curves.
 
-### An important caveat about latency and throughput numbers from this experiment
+### 7.1 An important caveat about latency and throughput numbers from this experiment
 We are using a different setup from the one used in the paper submission for replicating this experiment. We are using a machine with an Intel architecture (cloudlab instance `xl170`) rather than an AMD architecture (cloudlab instance `d6515`). This change occurred due to two reasons.
 (1) We consistently found it hard to obtain `d6515` machines on CloudLab, due to conflicting reservations from other users. There are just more instances of `xl170` available.
 (2) We found results from the Intel architecture more repeatable and reliable, with the benefits of additional performance-enhancing features that we plan to use for the final numbers in the camera-ready version of our paper.
 For these reasons, the throughput and latency numbers won't exactly match the paper as of the submission. Instead, the main claim we wish to validate is that: relative to the best version produced by `clang`, code produced by K2 has (1) similar or better throughput (MLFFR), and (2) much lower tail latency (latency at the MLFFR).
 
-### CloudLab Experiment Setup 
+### 7.2 CloudLab Experiment Setup 
 
 [Estimated Human Time: 30 minutes]
 
@@ -882,7 +883,7 @@ ssh -p 22 reviewer@hp124.utah.cloudlab.us
 
 where you will replace hp124.utah.cloudlab.us by the name of the node-0 machine from the CloudLab console. You should be able to connect to node-0. Then, exit out of node-0 session.
 
-### Measure and Interpret One Benchmark Program
+### 7.3 Measure and Interpret One Benchmark Program
 
 [Total Estimated Machine Time: 1 hour; Human Time: 10 minutes]
 
@@ -937,7 +938,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 
 <img src="instruction-images/exercise-2.png" width="400px">
 
-### Obtain all latency-throughput curves
+### 7.4 Obtain all latency-throughput curves
 [Total estimated machine time: 14 hours]
 
 #### Run three trials of all benchmarks that FORWARD PACKETS back to the traffic generator
