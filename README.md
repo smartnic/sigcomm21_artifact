@@ -951,7 +951,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput, drop rate, and latency graphs: `python3 generate_graphs.py -d xdp_fwd_all -b xdp_fwd -r 3`
 
-<img src="instruction-images/avg-latency-xdpfwd.png" width="400px" /> <img src="instruction-images/avg-through-xdpfwd.png" width="400px" />
+<img src="instruction-images/avg-latency-xdpfwd.png" width="400px" /> <img src="instruction-images/avg.png" width="400px" />
 
 #### Run three trials of a benchmark that DROP ALL PACKETS
 [Estimated Run Time: 6 hours]
