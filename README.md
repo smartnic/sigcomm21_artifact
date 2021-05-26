@@ -951,6 +951,8 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput, drop rate, and latency graphs: `python3 generate_graphs.py -d xdp_fwd_all -b xdp_fwd -r 3`
 
+<img src="instruction-images/avg-latency-xdpfwd.png" width="400px" /> <img src="instruction-images/avg-through-xdpfwd.png" width="400px" />
+
 #### Run three trials of a benchmark that DROP ALL PACKETS
 [Estimated Run Time: 6 hours]
 1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replaced with node1 in your experiment.
@@ -960,7 +962,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 5) Once it has completed running (it will say *Completed Full Script* in the logs), you will now generate the graphs.
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput graphs: `python3 generate_user_graphs.py -d ~/xdp_map_all -b xdp_map_access -r 3 -average`
-
+<img src="instruction-images/avg-mapaccess.png" width="400px" />
 ---
 
 ## 8 Efficacy of safety checks (Table 7 in the submitted paper appendix)
