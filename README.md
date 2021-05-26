@@ -953,7 +953,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 
 The results are the average of three trials. You may see graphs that look like this:
 
-<img src="instruction-images/avg-through-xdpfwd.png" width="400px" /> <img src="instruction-images/avg-latency-xdpfwd.png" width="400px" />
+<img src="instruction-images/avg.png" width="400px" /> <img src="instruction-images/avg-latency-xdpfwd.png" width="400px" />
 
 (If needed, see [how to interpret throughput-latency graphs](#interpreting-the-graphs) for a refresher on understanding one curve from this graph.) From the graphs above, we would write down the MLFFR throughput all the variants of `xdp_fwd` at 5.0 Mpps, with the latency at that throughput of the best K2 variant (curves with the label `kX`) being ~110 microseconds and the latency of the best clang variant being ~150 microseconds.
 
