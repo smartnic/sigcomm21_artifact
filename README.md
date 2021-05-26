@@ -117,8 +117,9 @@ near-interactively compiled on a reasonably powerful laptop, and we
 provide estimations of how long you might have to wait for each compilation to
 finish.
 
-3. The estimated times for the evaluation of the artifact are based on a machine 
-with 3.1 GHz Dual-Core Intel Core i7 processor, 16 GB 1867 MHz DDR3 memory.
+3. The estimated times for the evaluation of the artifact in the docker container
+are based on a machine with 3.1 GHz Dual-Core Intel Core i7 processor, 
+16 GB 1867 MHz DDR3 memory.
 
 ---
 
