@@ -667,7 +667,7 @@ _Exercisability_: The code needed to run the experiments in the paper is in the 
 
 ## Reproduction of empirical evaluation results
 
-## 5 Improvements in program compactness from K2 (Table 1 in the paper)
+## 5 Improvements in program compactness from K2 (Table 1 in the submitted paper)
 
 ### Run
 Estimated runtime: 1 hour 30 minutes
@@ -718,7 +718,7 @@ is the same as / similar to the table showing here.
 ```
 ---
 
-## 6 Reductions in equivalence-checking time (Table 3 in the paper)
+## 6 Reductions in equivalence-checking time (Table 3 in the submitted paper)
 
 ### Run
 Estimated runtime: 2 hours
