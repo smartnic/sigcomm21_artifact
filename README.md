@@ -86,7 +86,8 @@ may only show about 4 orders of magnitude of benefit (10,000X or more).
 We provide scripts to reproduce a subset
 of results from our empirical evaluation of throughput and latency of
 programs optimized by K2 (table 2 in the submitted paper). This requires
-[setting up an experiment on CloudLab]() using the credentials and disk
+[setting up an experiment on CloudLab](https://github.com/smartnic/sigcomm21_artifact#cloudlab-experiment-setup) 
+using the credentials and disk
 images that we provided. *This experiment takes a while to run* -- however,
 it runs on a server-class machine that you will be set up to run on. Once
 the longer experiments start, they require your attention only after a few
