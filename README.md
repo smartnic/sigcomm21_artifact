@@ -934,7 +934,7 @@ The graph will be located in `$HOME/xdp_map/rx/` and is called `0.png`.
 `scp -i my.key reviewer@hp024.utah.cloudlab.us:/users/reviewer/xdp_map/rx/0.png .`
 where hp024 is node-0
 
-You may obtain a graph that looks like this. This throughput measurement is reported by a program running directly on the DUT, and not on the traffic generator. 
+You may obtain a graph that looks like this. This throughput measurement is reported by a program running directly on the DUT, and not on the traffic generator. Since this only consists of one run, the actual throughput may vary up and down around a certain value, as offered load increases. The throughputs stabilize with more trials. With this single run, we would record the MLFFR throughput at ~15.0 Mpps.
 
 <img src="instruction-images/exercise-2.png" width="400px">
 
@@ -966,7 +966,13 @@ The results are the average of three trials. You may see graphs that look like t
 5) Once it has completed running (it will say *Completed Full Script* in the logs), you will now generate the graphs.
 `cd /usr/local/trex-configuration/visualize-data-scripts/` 
 5) Generate throughput graphs: `python3 generate_user_graphs.py -d ~/xdp_map_all -b xdp_map_access -r 3 -average`
+
+You might see a result that looks like this. These are averages over 3 trials. The raw data is in `~/xdp_map_all/avg_parsed_data.csv`.
+
 <img src="instruction-images/avg-mapaccess.png" width="400px" />
+
+The peak throughput of the best K2 variant is ~15.5 Mpps (`k1`) and that of the best `clang` variant (`O1`) is ~15 Mpps.
+
 ---
 
 ## 8 Efficacy of safety checks (Table 7 in the submitted paper appendix)
