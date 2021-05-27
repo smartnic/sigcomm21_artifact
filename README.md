@@ -44,7 +44,7 @@ This task exercises all of K2's main software components by showing how to optim
 We show how a user might change the input program to K2 to obtain
 different outputs. K2 accepts programs in three formats: [BPF C macros](https://github.com/smartnic/sigcomm21_artifact#21-bpf-c-macros)
 used by the Linux kernel (file extension .bpf), a home-grown instruction format we
-developed that we call this the [K2 macro language](https://github.com/smartnic/sigcomm21_artifact#22-k2-language-optional) (files with extension
+developed that we call this the [K2 language](https://github.com/smartnic/sigcomm21_artifact#22-k2-language-optional) (files with extension
 .k2), and [pre-compiled BPF object files](https://github.com/smartnic/sigcomm21_artifact#23-bpf-object-file). The compiler will output
 optimized versions of the programs in the same format that is
 consumed. [total estimated machine time: 4 minutes; human time: 15 minutes]
@@ -217,7 +217,7 @@ EXIT        // exit, return r0
 ---
 
 ## 2 Changing the input program
-In this experiment, we introduce three input-output program formats supported by K2: BPF C macros, the K2 macro language, and pre-compiled BPF object files, and show how a user might modify a given program to see different outputs. Kernel developers often hard-code BPF assembly similar to the first format (BPF C macros); most real code that uses BPF is written in C and compiled by `Clang` into the BPF object file format, which corresponds to the third format (pre-compiled BPF object files). We show all three program formats since the first two formats are easier to read and understand (especially to understand specific optimizations), while the last format is practically the most used and deployed.
+In this experiment, we introduce three input-output program formats supported by K2: BPF C macros, the K2 language, and pre-compiled BPF object files, and show how a user might modify a given program to see different outputs. Kernel developers often hard-code BPF assembly similar to the first format (BPF C macros); most real code that uses BPF is written in C and compiled by `Clang` into the BPF object file format, which corresponds to the third format (pre-compiled BPF object files). We show all three program formats since the first two formats are easier to read and understand (especially to understand specific optimizations), while the last format is practically the most used and deployed.
 
 ### 2.1 BPF C macros
 
@@ -361,7 +361,7 @@ K2 reduces 4 instructions to 1 instruction by directly storing an immediate numb
 
 ### 2.2 K2 language (optional)
 
-This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 macro language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in /sigcomm21_artifact/dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
+This subsection discusses the same process as 2.1 (making a change to the input program and observing different outputs), with the main difference that the program is encoded in the K2 language. The language is mainly used inside our compiler for ease of development and is not something that regular BPF developers use as a surface language.  K2 opcodes have a one-to-one correspondence with the set of BPF assembly opcodes. You could look at the source code of our BPF interpreter (in /sigcomm21_artifact/dependencies/superopt/src/isa/ebpf/inst.cc in the container) for more details.
 
 #### Run
 Estimated runtime: 25 seconds.
