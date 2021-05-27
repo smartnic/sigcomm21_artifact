@@ -290,7 +290,7 @@ and returns the value address (i.e., &map[key]) if the key exists in the map,
 else returns `NULL` (i.e., 0).
 
 The instruction `BPF_LD_MAP_FD` occupies two "slots", i.e., the space of two "regular" BPF instructions. 
-One of the slots holds a 64-bit map descriptor.
+A 64-bit map descriptor is divided into two 32-bit immediate numbers stored in two separate slots.
 
 #### Changing the input program
 
@@ -487,7 +487,7 @@ You may see (this is the result from our run)
 Comment to understand the modification:
 ```
 STDW 10 -8 1  // *(u64 *)(r10 - 8) = 1
-              // It means that (r10 - 7) to (r10 - 1) are set as 0, (r10 - 8) is set as 1
+              // It means that Mem[r10 - 7: r10 - 1] is set as 0, while Mem[r10 - 8] is set as 1
               // In your run, the immediate number could be others because of the stochastic search
 ```
 K2 reduces 4 instructions to 1 instruction by directly storing an immediate number on the stack and removing redundant instructions.
@@ -504,7 +504,7 @@ Estimated runtime: 1 minute.
 cd ../3_object_file
 sh k2.sh xdp1_kern.o xdp1
 ```
-The second command feeds the program `xdp1` in the object file `xdp1_kern.o` to K2, and K2 will produce an output object file in `xdp1_kern.o.out`
+The second command feeds the program `xdp1` in the object file `xdp1_kern.o` to K2, and K2 will produce an output object file `xdp1_kern.o.out`.
 
 #### Result for reference
 You will see K2 reduces 61 instructions to 59. 
@@ -517,7 +517,7 @@ top 1 program's performance cost: 59
 ```
 Run the following command to see the difference between the input and output programs. The first
 and second commands use `llvm-objdump` to get the disassembly programs from `xdp1_kern.o`and 
-`xdp1_kern.o.out`, then store the programs in the corresponding files with the extension of .objdump.
+`xdp1_kern.o.out`, then store the programs in the corresponding files with the extension of `.objdump`.
 ```
 llvm-objdump -d xdp1_kern.o > xdp1_kern.o.objdump
 llvm-objdump -d xdp1_kern.o.out > xdp1_kern.o.out.objdump
@@ -558,7 +558,7 @@ for K2. The manual window setting is mainly for illustration: in practice, we au
 and set these program windows. Specifically, we show explicit settings of two different window 
 parameters for the same input program. 
 
-`Note`: In this section, We use `window [s,e]` to represent the program segment from `s` to `e` 
+`Note`: In this section, We use `window [s,e]` to represent the program segment from instruction `s` to `e` 
 for convenience.
 
 ### Run over one window
@@ -623,7 +623,7 @@ sh k2.sh benchmark.bpf 4 5 benchmark_win2.bpf.out
 ```
 
 For this command, K2 takes the same program `benchmark.bpf` as an input to optimize window [4,5] 
-and stores output program in `benchmark_win2.bpf.out`
+and stores the output program in `benchmark_win2.bpf.out`
 
 
 #### Result for reference
@@ -696,7 +696,7 @@ sh insn_count.sh
 #### Result for reference
 Note: the result reproduced on your machine may be different to the result from our run
 because of the stochastic search. The key point is that `Number of instructions` of K2
-is the same as/similar to the table showing here.
+is the same as/similar to the corresponding results in the table showing here.
 ```
 +----------------------------------------------------+
 |               Number of instructions               |
@@ -894,7 +894,7 @@ Note: All data and logs, graphs are saved in your home directory on Cloudlab. Th
 #### Warmup 1: Run one trial of a benchmark that FORWARDS PACKETS BACK to the traffic generator. 
 [Estimated Machine Run Time: 30 minutes; human time: 1 minute]
 
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is the private SSH key on your local computer and `hp125.utah.cloudlab.us` is replaced with the name of the `node-1` machine in your experiment.
+1) SSH into node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is the private SSH key on your local computer and `hp125.utah.cloudlab.us` is replaced with the name of the `node-1` machine in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr.py -b xdp_fwd -v o1 -d xdp_fwd/ -n 1 -c 6 &`. This proccess will run in the background. Just press Enter. 
 4) Check progress of logs `tail -f $HOME/nohup.out`
@@ -921,7 +921,7 @@ We define the throughput as the _maximum loss-free forwarding rate (MLFFR)_ (RFC
 #### Warmup 2: Run one trial of a benchmark that DROPS ALL PACKETS.
 [Estimated Machine Run Time: 30 minutes; human time: 1 minute]
 
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
+1) SSH into node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is your private ssh key on your local computer and hp125 will be replaced with node-1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr_user.py -b xdp_map_access -v o1 -d xdp_map -n 1 -c 6 > $HOME/map.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/map.txt`
@@ -943,7 +943,7 @@ You may obtain a graph that looks like this. This throughput measurement is repo
 
 #### Run three trials of a benchmark that FORWARDS PACKETS back to the traffic generator
 [Estimated machine run time: 8 hours; human time: 10 minutes]
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on your local computer and hp125 will be replaced with node1 in your experiment.
+1) SSH into node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is your private ssh key on your local computer and hp125 will be replaced with node-1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr.py -b xdp_fwd -d xdp_fwd_all -n 3 -c 6 > $HOME/xdp_fwd_log.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/xdp_fwd_log.txt`
@@ -960,7 +960,7 @@ The results are the average of three trials. The raw data is located in `~/xdp_f
 
 #### Run three trials of a benchmark that DROP ALL PACKETS
 [Estimated machine run Time: 6 hours, human time: 10 minutes]
-1) SSH into Node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where my.key is your private ssh key on  your local computer and hp125 will be replaced with node1 in your experiment.
+1) SSH into node-1: e.g. `ssh -p 22 -i my.key reviewer@hp125.utah.cloudlab.us` where `my.key` is your private ssh key on  your local computer and hp125 will be replaced with node-1 in your experiment.
 2) Change to directory: `cd /usr/local/v2.87`
 3) Start run: `nohup python3 -u run_mlffr_user.py -b xdp_map_access -d xdp_map_all -n 3 -c 6 > $HOME/map_all.txt &`. This proccess will run in the background; therefore, press enter. 
 4) Check progress of logs `tail -f $HOME/map_all.txt`
@@ -995,7 +995,7 @@ produced by K2 when we submitted the manuscript.
 
 Estimated runtime: 2 minutes 30 seconds
 
-SSH into Node-0: suppose currently you are on the node-1 machine
+SSH into node-0: suppose currently you are on the node-1 machine
 ```
 ssh -p 22 reviewer@hp124.utah.cloudlab.us
 ```
