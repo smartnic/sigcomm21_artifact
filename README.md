@@ -58,7 +58,7 @@ parameters](https://github.com/smartnic/sigcomm21_artifact/wiki#k2-parameters) i
 4. [Specific ACM SIGCOMM criteria for artifact functionality.](https://github.com/smartnic/sigcomm21_artifact#4-Specific-ACM-SIGCOMM-criteria-for-artifact-functionality)
 This section explicitly addresses the three criteria for artifact functionality described in the [call for artifacts](https://conferences.sigcomm.org/sigcomm/2021/cf-artifacts.html). [total estimated (human) time: 2 minutes]
 
-*Reproduction of results (sections 5 through 7).* We show how to reproduce the main claims in the empirical evaluation of the paper.
+*Reproduction of results (sections 5 through 8).* We show how to reproduce the main claims in the empirical evaluation of the paper.
 
 5. [Instruction count reduction](#5-improvements-in-program-compactness-from-k2-table-1-in-the-submitted-paper): We provide
 scripts to reproduce a subset of results on the reductions in program
