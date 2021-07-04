@@ -540,8 +540,9 @@ We can see that there are two `goto +0` instructions in the output program. For 
 
 ### 2.4 New C source files
 
-To optimize a new C file using K2, first compile it and get the resulting object file using one of the 
-traditional BPF compiler toolchains (e.g., Clang-9). 
+To optimize a new C file using K2 that isn't included in the artifact, first compile it and get the resulting object file 
+using one of the traditional BPF compiler toolchains (e.g., Clang-9). Then we demonstrate below how to interface with
+K2 to get the optimized `.o` file.
 
 #### Install BPF ELF tools 
 If you've already run `install.sh`, you should already have BPF ELF tools installed. Otherwise, install the dependencies
