@@ -569,7 +569,7 @@ Use the text extractor to obtain the ELF data from your object file
 ./bpf-elf-tools/text-extractor/elf_extract file.o
 ```
 
-You should now see files with the `.insns`, `.maps`, `.rel`, and `.txt` extensions; these files will
+You should now see files with the `.insns` and `.maps` extensions; these files will
 be used as inputs to K2
 
 #### Convert K2 .insns to ELF
