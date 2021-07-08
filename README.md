@@ -538,6 +538,51 @@ We can see that there are two `goto +0` instructions in the output program. For 
 >        8: 05 00 00 00 00 00 00 00 goto +0 <xdp_prog1+0x48>
 ```
 
+### 2.4 New C source files
+
+To optimize a new C file using K2 that isn't included in the artifact, first compile it and get the resulting object file 
+using one of the traditional BPF compiler toolchains (e.g., Clang-9). Then we demonstrate below how to interface with
+K2 to get the optimized `.o` file.
+
+#### Install BPF ELF tools 
+If you've already run `install.sh`, you should already have BPF ELF tools installed. Otherwise, install the dependencies
+```
+sudo apt-get install g++ make libelf-dev python python3-pip pkg-config llvm
+```
+Clone the repo
+```
+git clone https://github.com/smartnic/bpf-elf-tools.git
+```
+Build the text extractor
+```
+make -C bpf-elf-tools/text-extractor/ 
+gcc bpf-elf-tools/text-extractor/staticobjs/* -lelf -lz -o elf_extract
+```
+Use pip3 to install the python packages for the ELF patcher
+```
+pip3 install -r bpf-elf-tools/patch_insns/requirements.txt
+```
+
+#### Extract the ELF data
+
+Use the text extractor to obtain the ELF data from your object file
+```
+./elf_extract file.o
+```
+
+You should now see files with the `.insns` and `.maps` extensions; these files will
+be used as inputs to K2
+
+#### Convert K2 .insns to ELF
+
+After running K2, get the `output.insns` file with the optimized K2 instructions. Patch the old ELF
+with these new instructions
+
+```
+python3 bpf-elf-tools/patch_insns/patch_elf.py file.o output.insns section-name -o optimized.o
+```
+
+
 ---
 
 ## 3 Changing compiler parameters
