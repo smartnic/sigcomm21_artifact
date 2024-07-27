@@ -148,7 +148,7 @@ experiment.](#72-cloudlab-experiment-setup)
 
 2. Download the prebuilt docker image (shasum: 469dbb6cb935342bd7fbd5687c395ba9cb7ef5e5)
 ```
-https://drive.google.com/file/d/1Td3yM0PNLgBRf7Y_XlPAP9vbNHMeYrBl/view?usp=sharing
+https://drive.google.com/file/d/1FT0YjxDlJYzAiu16V-pyNaDoBvcXC0aa/view?usp=sharing
 ```
 
 
